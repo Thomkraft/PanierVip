@@ -10,13 +10,13 @@
         {% endif %}
         <form method="post">
             <div class="mb-3">
-                <label for="inputEmail" class="form-label">Email</label>
-                <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" required autofocus>
+                <label for="inputUsername" class="form-label">Username</label>
+                <input type="text" value="{{ last_username }}" name="_username" id="inputUsername" class="form-control" required autofocus>
             </div>
             <div class="mb-3">
-                <label for="inputPassword" class="form-label">Mot de passe</label>
-                <input type="password" name="password" id="inputPassword" class="form-control" required>
+                <input type="password" name="_password" id="inputPassword" class="form-control" required>
             </div>
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
             <button type="submit" class="btn btn-primary">Se connecter</button>
         </form>
     </div>
