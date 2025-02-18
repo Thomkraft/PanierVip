@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Choisir un pseudo{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <h1 class="mb-4">Choisissez un pseudo</h1>
+        {{ form_start(form) }}
+        {{ form_row(form.pseudo) }}
+        <button type="submit" class="btn btn-primary">Valider</button>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}
