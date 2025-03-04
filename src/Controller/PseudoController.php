@@ -11,8 +11,8 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class PseudoController extends AbstractController
 {
-    #[Route('/set-pseudo', name: 'app_set_pseudo')]
-    public function setPseudo(Request $request, EntityManagerInterface $entityManager): Response
+    #[Route('/set_pseudo', name: 'app_set_pseudo')]
+    public function set_pseudo(Request $request, EntityManagerInterface $entityManager): Response
     {
         $user = $this->getUser();
 

@@ -46,7 +46,7 @@ class RegistrationFormType extends AbstractType
             ])
             ->add('pseudo', TextType::class, [
                 'label' => 'Pseudo',
-                'required' => false, // Le pseudo n'est pas obligatoire à l'inscription
+                'required' => false,
             ])
         ;
     }

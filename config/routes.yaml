@@ -12,3 +12,7 @@ app_home:
     path: /
     controller: App\Controller\SLListController::home
 
+app_set_pseudo:
+    path: /set_pseudo
+    controller: App\Controller\PseudoController::set_pseudo
+
