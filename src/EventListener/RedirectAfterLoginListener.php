@@ -20,10 +20,15 @@ class RedirectAfterLoginListener implements EventSubscriberInterface
         $user = $event->getUser();
 
         if (empty($user->getPseudo())) {
-            $event->setResponse(new RedirectResponse($this->urlGenerator->generate('app_set_pseudo')));
+            $url = $this->urlGenerator->generate('app_set_pseudo');
         } else {
-            $event->setResponse(new RedirectResponse($this->urlGenerator->generate('app_home')));
+            $url = $this->urlGenerator->generate('app_list');
         }
+
+        // Log the generated URL for debugging purposes
+        error_log('Redirecting to URL: ' . $url);
+
+        $event->setResponse(new RedirectResponse($url));
     }
 
     public static function getSubscribedEvents(): array
