@@ -16,3 +16,6 @@ app_set_pseudo:
     path: /set_pseudo
     controller: App\Controller\PseudoController::set_pseudo
 
+app_logout:
+    path: /logout
+
