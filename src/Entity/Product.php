@@ -2,11 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\ShoppingListRepository;
+use App\Repository\ProductRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: ShoppingListRepository::class)]
-class ShoppingList
+#[ORM\Entity(repositoryClass: ProductRepository::class)]
+class Product
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -17,7 +17,10 @@ class ShoppingList
     private ?string $name = null;
 
     #[ORM\Column]
-    private ?int $nbProducts = null;
+    private ?float $weight = null;
+
+    #[ORM\Column]
+    private ?float $price = null;
 
     public function getId(): ?int
     {
@@ -36,14 +39,26 @@ class ShoppingList
         return $this;
     }
 
-    public function getNbProducts(): ?int
+    public function getWeight(): ?float
     {
-        return $this->nbProducts;
+        return $this->weight;
     }
 
-    public function setNbProducts(int $nbProducts): static
+    public function setWeight(float $weight): static
     {
-        $this->nbProducts = $nbProducts;
+        $this->weight = $weight;
+
+        return $this;
+    }
+
+    public function getPrice(): ?float
+    {
+        return $this->price;
+    }
+
+    public function setPrice(float $price): static
+    {
+        $this->price = $price;
 
         return $this;
     }

@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit SpentInCategory{% endblock %}
+
+{% block body %}
+    <h1>Edit SpentInCategory</h1>
+
+    {{ include('spent_in_category/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_spent_in_category_index') }}">back to list</a>
+
+    {{ include('spent_in_category/_delete_form.html.twig') }}
+{% endblock %}
