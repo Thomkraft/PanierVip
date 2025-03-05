@@ -2,11 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\ShoppingListRepository;
+use App\Repository\CategoryRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: ShoppingListRepository::class)]
-class ShoppingList
+#[ORM\Entity(repositoryClass: CategoryRepository::class)]
+class Category
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -15,9 +15,6 @@ class ShoppingList
 
     #[ORM\Column(length: 50)]
     private ?string $name = null;
-
-    #[ORM\Column]
-    private ?int $nbProducts = null;
 
     public function getId(): ?int
     {
@@ -32,18 +29,6 @@ class ShoppingList
     public function setName(string $name): static
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    public function getNbProducts(): ?int
-    {
-        return $this->nbProducts;
-    }
-
-    public function setNbProducts(int $nbProducts): static
-    {
-        $this->nbProducts = $nbProducts;
 
         return $this;
     }

@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}SpentInCategory index{% endblock %}
+
+{% block body %}
+    <h1>SpentInCategory index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Amount</th>
+                <th>IsUser</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for spent_in_category in spent_in_categories %}
+            <tr>
+                <td>{{ spent_in_category.id }}</td>
+                <td>{{ spent_in_category.amount }}</td>
+                <td>{{ spent_in_category.isUser }}</td>
+                <td>
+                    <a href="{{ path('app_spent_in_category_show', {'id': spent_in_category.id}) }}">show</a>
+                    <a href="{{ path('app_spent_in_category_edit', {'id': spent_in_category.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_spent_in_category_new') }}">Create new</a>
+{% endblock %}
