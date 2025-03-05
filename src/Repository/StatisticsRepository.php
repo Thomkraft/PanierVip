@@ -17,7 +17,6 @@ class StatisticsRepository extends ServiceEntityRepository
         parent::__construct($registry, Statistics::class);
     }
 
-
     //    /**
     //     * @return Statistics[] Returns an array of Statistics objects
     //     */
