@@ -17,9 +17,6 @@ class StatisticsRepository extends ServiceEntityRepository
         parent::__construct($registry, Statistics::class);
     }
 
-    public function getAvgProductCost(): float {
-        
-    }
 
     //    /**
     //     * @return Statistics[] Returns an array of Statistics objects
