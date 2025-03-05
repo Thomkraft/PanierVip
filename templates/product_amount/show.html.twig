@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ProductAmount{% endblock %}
+
+{% block body %}
+    <h1>ProductAmount</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ product_amount.id }}</td>
+            </tr>
+            <tr>
+                <th>Amount</th>
+                <td>{{ product_amount.amount }}</td>
+            </tr>
+            <tr>
+                <th>IdUser</th>
+                <td>{{ product_amount.idUser }}</td>
+            </tr>
+            <tr>
+                <th>IdProduct</th>
+                <td>{{ product_amount.idProduct }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_product_amount_index') }}">back to list</a>
+
+    <a href="{{ path('app_product_amount_edit', {'id': product_amount.id}) }}">edit</a>
+
+    {{ include('product_amount/_delete_form.html.twig') }}
+{% endblock %}
