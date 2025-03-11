@@ -37,8 +37,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
-    #[ORM\Column]
-    private ?bool $isAdmin = null;
+    #[ORM\Column(options: ['default' => false])]
+    private ?bool $isAdmin = false;
+
+    public function isAdmin() : ?bool
+    {
+        return $this->isAdmin;
+    }
 
     public function getId(): ?int
     {
@@ -124,17 +129,5 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
-    }
-
-    public function isAdmin(): ?bool
-    {
-        return $this->isAdmin;
-    }
-
-    public function setIsAdmin(bool $isAdmin): static
-    {
-        $this->isAdmin = $isAdmin;
-
-        return $this;
     }
 }
