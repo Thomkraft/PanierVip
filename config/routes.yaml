@@ -6,11 +6,11 @@ controllers:
 
 app_list:
     path: /list
-    controller: App\Controller\SLListController::index
+    controller: App\Controller\PseudoController::set_pseudo
 
 app_home:
     path: /
-    controller: App\Controller\SLListController::home
+    controller: App\Controller\PseudoController::set_pseudo
 
 app_set_pseudo:
     path: /set_pseudo
