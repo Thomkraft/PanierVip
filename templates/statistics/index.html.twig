@@ -3,7 +3,7 @@
 {% block title %}Statistics index{% endblock %}
 
 {% block body %}
-    <h1>Statistics index</h1>
+    <h1>Vos Statistiques !</h1>
 
     <table class="table">
         <thead>
@@ -34,6 +34,41 @@
         {% endfor %}
         </tbody>
     </table>
+
+    <div>
+        <span>Vos Statistiques</span>
+        <div class = "stats">
+            <span>total dépensé : <span id = "total">0</span></span>
+            <span>coût moyen d'un produit : <span id = "avg">0</span></span>
+            <span>produit le plus cher : <span id = "exp"></span> </span>
+            <span>produit le moins cher : <span id = "chp"></span></span>
+        </div>
+    </div>
+
+    <script>
+        // TAGS
+        const total = document.querySelector("#total")
+        let totalData = 0; // pour éviter de set à 'null'
+
+        // EVENTS IMPLEMENTATION
+        /**
+        * @author : Mael
+        */
+        function getTotal() {
+            fetch("/statistics/total-cost", {
+                method: 'GET',
+                headers : { 
+                    "Content-Type" : "application/json"
+                }
+            })
+            .then((rq) => rq.json())
+
+            .then((data) => console.log(`DATA : ${data}`))
+        }
+        
+        getTotal()
+
+    </script>
 
     <a href="{{ path('app_statistics_new') }}">Create new</a>
 {% endblock %}

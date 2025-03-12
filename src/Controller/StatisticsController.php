@@ -4,12 +4,16 @@ namespace App\Controller;
 
 use App\Entity\Statistics;
 use App\Form\StatisticsType;
+use App\Repository\ProductRepository;
 use App\Repository\StatisticsRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use PHPUnit\Util\Json;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use App\Entity\Product;
 
 #[Route('/statistics')]
 final class StatisticsController extends AbstractController
@@ -77,5 +81,46 @@ final class StatisticsController extends AbstractController
         }
 
         return $this->redirectToRoute('app_statistics_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+
+    #[Route("/statistics/avg", name: 'stats_avg', methods: ['GET'])]
+    public function getAvgProductCost(ProductRepository $productRepo): JsonResponse {
+        $products = $productRepo->findAll();
+        $totalCost = 0;
+
+        foreach ($products as $product) { $totalCost += $product->getPrice(); }
+
+        $avg = $totalCost / sizeof($products);
+
+        return new JsonResponse(["AVERAGE" => $avg]);
+    }
+
+
+    #[Route("/statistics/total-cost", name: "total_cost", methods: ['GET'])]
+    public function getTotalCost(ProductRepository $productRepo): JsonResponse { 
+        $products = $productRepo->findAll();
+        $totalCost = 0;
+
+        foreach ($products as $product) { $totalCost += $product->getPrice(); }
+
+        return new JsonResponse(["TOTAL_COST" => $totalCost]);
+    }
+
+    #[Route("/statistics/mep", name: "most_expensive_product", methods: ['GET'])]
+    public function getMostExpProduct(ProductRepository $productRepo): JsonResponse {
+        $products = $productRepo->findAll();
+        $mostExpProduct = new Product();
+        $token = $mostExpProduct; // will hold the dummy ref of 'new Product()'
+
+        foreach ($products as $product) {
+            if ($mostExpProduct == $token) { $mostExpProduct = $product; } 
+            else {
+                if ($mostExpProduct->getPrice() < $product->getPrice())
+                    $mostExpProduct = $product;
+            }
+        }
+
+        return new JsonResponse(["MOST_EXP_PRODUCT" => $mostExpProduct]);
     }
 }
