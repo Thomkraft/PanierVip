@@ -50,6 +50,7 @@ final class ShoppingListControllerTest extends WebTestCase
         $this->client->submitForm('Save', [
             'shopping_list[name]' => 'Testing',
             'shopping_list[nbProducts]' => 'Testing',
+            'shopping_list[products]' => 'Testing',
         ]);
 
         self::assertResponseRedirects($this->path);
@@ -63,6 +64,7 @@ final class ShoppingListControllerTest extends WebTestCase
         $fixture = new ShoppingList();
         $fixture->setName('My Title');
         $fixture->setNbProducts('My Title');
+        $fixture->setProducts('My Title');
 
         $this->manager->persist($fixture);
         $this->manager->flush();
@@ -81,6 +83,7 @@ final class ShoppingListControllerTest extends WebTestCase
         $fixture = new ShoppingList();
         $fixture->setName('Value');
         $fixture->setNbProducts('Value');
+        $fixture->setProducts('Value');
 
         $this->manager->persist($fixture);
         $this->manager->flush();
@@ -90,6 +93,7 @@ final class ShoppingListControllerTest extends WebTestCase
         $this->client->submitForm('Update', [
             'shopping_list[name]' => 'Something New',
             'shopping_list[nbProducts]' => 'Something New',
+            'shopping_list[products]' => 'Something New',
         ]);
 
         self::assertResponseRedirects('/shopping/list/');
@@ -98,6 +102,7 @@ final class ShoppingListControllerTest extends WebTestCase
 
         self::assertSame('Something New', $fixture[0]->getName());
         self::assertSame('Something New', $fixture[0]->getNbProducts());
+        self::assertSame('Something New', $fixture[0]->getProducts());
     }
 
     public function testRemove(): void
@@ -106,6 +111,7 @@ final class ShoppingListControllerTest extends WebTestCase
         $fixture = new ShoppingList();
         $fixture->setName('Value');
         $fixture->setNbProducts('Value');
+        $fixture->setProducts('Value');
 
         $this->manager->persist($fixture);
         $this->manager->flush();

@@ -6,11 +6,11 @@ controllers:
 
 app_list:
     path: /list
-    controller: App\Controller\PseudoController::set_pseudo
+    controller: App\Controller\ShoppingListController::index
 
 app_home:
     path: /
-    controller: App\Controller\PseudoController::set_pseudo
+    controller: App\Controller\ShoppingListController::index
 
 app_set_pseudo:
     path: /set_pseudo

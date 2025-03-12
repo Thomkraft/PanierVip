@@ -50,7 +50,9 @@ final class ProductControllerTest extends WebTestCase
         $this->client->submitForm('Save', [
             'product[name]' => 'Testing',
             'product[weight]' => 'Testing',
-            'product[price]' => 'Testing',
+            'product[euros]' => 'Testing',
+            'product[centimes]' => 'Testing',
+            'product[category]' => 'Testing',
         ]);
 
         self::assertResponseRedirects($this->path);
@@ -64,7 +66,9 @@ final class ProductControllerTest extends WebTestCase
         $fixture = new Product();
         $fixture->setName('My Title');
         $fixture->setWeight('My Title');
-        $fixture->setPrice('My Title');
+        $fixture->setEuros('My Title');
+        $fixture->setCentimes('My Title');
+        $fixture->setCategory('My Title');
 
         $this->manager->persist($fixture);
         $this->manager->flush();
@@ -83,7 +87,9 @@ final class ProductControllerTest extends WebTestCase
         $fixture = new Product();
         $fixture->setName('Value');
         $fixture->setWeight('Value');
-        $fixture->setPrice('Value');
+        $fixture->setEuros('Value');
+        $fixture->setCentimes('Value');
+        $fixture->setCategory('Value');
 
         $this->manager->persist($fixture);
         $this->manager->flush();
@@ -93,7 +99,9 @@ final class ProductControllerTest extends WebTestCase
         $this->client->submitForm('Update', [
             'product[name]' => 'Something New',
             'product[weight]' => 'Something New',
-            'product[price]' => 'Something New',
+            'product[euros]' => 'Something New',
+            'product[centimes]' => 'Something New',
+            'product[category]' => 'Something New',
         ]);
 
         self::assertResponseRedirects('/product/');
@@ -102,7 +110,9 @@ final class ProductControllerTest extends WebTestCase
 
         self::assertSame('Something New', $fixture[0]->getName());
         self::assertSame('Something New', $fixture[0]->getWeight());
-        self::assertSame('Something New', $fixture[0]->getPrice());
+        self::assertSame('Something New', $fixture[0]->getEuros());
+        self::assertSame('Something New', $fixture[0]->getCentimes());
+        self::assertSame('Something New', $fixture[0]->getCategory());
     }
 
     public function testRemove(): void
@@ -111,7 +121,9 @@ final class ProductControllerTest extends WebTestCase
         $fixture = new Product();
         $fixture->setName('Value');
         $fixture->setWeight('Value');
-        $fixture->setPrice('Value');
+        $fixture->setEuros('Value');
+        $fixture->setCentimes('Value');
+        $fixture->setCategory('Value');
 
         $this->manager->persist($fixture);
         $this->manager->flush();
