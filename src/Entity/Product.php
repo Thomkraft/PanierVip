@@ -19,7 +19,7 @@ class Product
     private ?string $name = null;
 
     #[ORM\Column]
-    private ?bool $weight = null;
+    private ?int $weight = null;
 
     #[ORM\ManyToOne(inversedBy: 'products')]
     #[ORM\JoinColumn(nullable: false)]
@@ -59,12 +59,12 @@ class Product
         return $this;
     }
 
-    public function isWeight(): ?bool
+    public function getWeight(): ?int
     {
         return $this->weight;
     }
 
-    public function setWeight(bool $weight): static
+    public function setWeight(int $weight): static
     {
         $this->weight = $weight;
 

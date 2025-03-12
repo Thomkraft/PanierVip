@@ -15,7 +15,9 @@ class ShoppingListType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('nbProducts')
+            ->add('nbProducts', null,
+                ["disabled" => true]
+            )
             ->add('products', EntityType::class, [
                 'class' => Quantity::class,
                 'choice_label' => 'id',
