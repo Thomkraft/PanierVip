@@ -19,7 +19,7 @@ class ShoppingList
     private ?string $name = null;
 
     #[ORM\Column]
-    private ?int $nbProducts = null;
+    private ?int $nbProducts = 0;
 
     /**
      * @var Collection<int, Quantity>

@@ -1,37 +1,44 @@
+
 {% extends 'base.html.twig' %}
 
 {% block title %}ShoppingList index{% endblock %}
 
 {% block body %}
-    <h1>ShoppingList index</h1>
+    <h1>Your Shopping list</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>NbProducts</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for shopping_list in shopping_lists %}
-            <tr>
-                <td>{{ shopping_list.id }}</td>
-                <td>{{ shopping_list.name }}</td>
-                <td>{{ shopping_list.nbProducts }}</td>
-                <td>
+    <div class="table-container">
+        {% for loop_index, shopping_list in shopping_lists %}
+
+            <div class="shopping-list-item {% if loop_index < 3 %}detailed{% endif %}">
+
+                <h3>{{ shopping_list.name }}</h3>
+
+                {% if loop_index < 3 %}
+
+                    <p><strong>Id:</strong> {{ shopping_list.id }}</p>
+                    <p><strong>NbProducts:</strong> {{ shopping_list.nbProducts }}</p>
+                    <p><strong>Products:</strong></p>
+
+                {% else %}
+
+                    <p><strong>NbProducts:</strong> {{ shopping_list.nbProducts }}</p>
+
+                {% endif %}
+                
+                <div class="actions">
+
                     <a href="{{ path('app_shopping_list_show', {'id': shopping_list.id}) }}">show</a>
                     <a href="{{ path('app_shopping_list_edit', {'id': shopping_list.id}) }}">edit</a>
-                </td>
-            </tr>
+
+                </div>
+            </div>
+
         {% else %}
-            <tr>
-                <td colspan="4">no records found</td>
-            </tr>
+
+            <p>No records found</p>
+            
         {% endfor %}
-        </tbody>
-    </table>
+    </div>
 
     <a href="{{ path('app_shopping_list_new') }}">Create new</a>
     <a href="{{ path('app_logout') }}">Logout</a>
@@ -40,3 +47,4 @@
         <a href="{{ path('app_admin') }}">Admin</a>
     {% endif %}
 {% endblock %}
+

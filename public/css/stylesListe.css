@@ -1,7 +1,3 @@
-body {
-    background-color: skyblue;
-}
-
 /* Container for the shopping lists */
 .table-container {
     display: flex;
