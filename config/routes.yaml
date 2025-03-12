@@ -19,3 +19,6 @@ app_set_pseudo:
 app_logout:
     path: /logout
 
+app_admin:
+    path: /admin
+    controller: App\Controller\ProductController::index
