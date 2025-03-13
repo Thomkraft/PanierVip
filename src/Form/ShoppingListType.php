@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\Entity\Quantity;
+use App\Entity\Product;
 use App\Entity\ShoppingList;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -19,9 +19,10 @@ class ShoppingListType extends AbstractType
                 ["disabled" => true]
             )
             ->add('products', EntityType::class, [
-                'class' => Quantity::class,
-                'choice_label' => 'id',
+                'class' => Product::class,
+                'choice_label' => 'name',
                 'multiple' => true,
+                'expanded' => false,
             ])
         ;
     }
