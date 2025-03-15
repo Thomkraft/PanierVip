@@ -31,6 +31,17 @@ class Product
     #[ORM\Column]
     private ?int $centimes = null;
 
+    /**
+     * @var Collection<int, Quantity>
+     */
+    #[ORM\OneToMany(targetEntity: Quantity::class, mappedBy: 'idProduct', orphanRemoval: true)]
+    private Collection $quantity;
+
+    public function __construct()
+    {
+        $this->quantity = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -92,6 +103,36 @@ class Product
     public function setCentimes(int $centimes): static
     {
         $this->centimes = $centimes;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Quantity>
+     */
+    public function getQuantity(): Collection
+    {
+        return $this->quantity;
+    }
+
+    public function addQuantity(Quantity $quantity): static
+    {
+        if (!$this->quantity->contains($quantity)) {
+            $this->quantity->add($quantity);
+            $quantity->setIdProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeQuantity(Quantity $quantity): static
+    {
+        if ($this->quantity->removeElement($quantity)) {
+            // set the owning side to null (unless already changed)
+            if ($quantity->getIdProduct() === $this) {
+                $quantity->setIdProduct(null);
+            }
+        }
 
         return $this;
     }
