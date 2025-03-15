@@ -21,17 +21,6 @@ class ShoppingList
     #[ORM\Column]
     private ?int $nbProducts = 0;
 
-    /**
-     * @var Collection<int, Quantity>
-     */
-    #[ORM\ManyToMany(targetEntity: Quantity::class)]
-    private Collection $products;
-
-    public function __construct()
-    {
-        $this->products = new ArrayCollection();
-    }
-
     public function getId(): ?int
     {
         return $this->id;
@@ -57,30 +46,6 @@ class ShoppingList
     public function setNbProducts(int $nbProducts): static
     {
         $this->nbProducts = $nbProducts;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Quantity>
-     */
-    public function getProducts(): Collection
-    {
-        return $this->products;
-    }
-
-    public function addProduct(Quantity $product): static
-    {
-        if (!$this->products->contains($product)) {
-            $this->products->add($product);
-        }
-
-        return $this;
-    }
-
-    public function removeProduct(Quantity $product): static
-    {
-        $this->products->removeElement($product);
 
         return $this;
     }
