@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ListedProduct{% endblock %}
+
+{% block body %}
+    <h1>ListedProduct</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ listed_product.id }}</td>
+            </tr>
+            <tr>
+                <th>Quantity</th>
+                <td>{{ listed_product.quantity }}</td>
+            </tr>
+            <tr>
+                <th>Bought</th>
+                <td>{{ listed_product.bought ? 'Yes' : 'No' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_listed_product_index') }}">back to list</a>
+
+    <a href="{{ path('app_listed_product_edit', {'id': listed_product.id}) }}">edit</a>
+
+    {{ include('listed_product/_delete_form.html.twig') }}
+{% endblock %}

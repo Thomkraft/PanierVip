@@ -1,34 +1,41 @@
-
 {% extends 'base.html.twig' %}
 
 {% block title %}ShoppingList index{% endblock %}
 
 {% block body %}
-    <h1>Your Shopping list</h1>
+    <h1>Your Shopping lists</h1>
 
-    <div class="table-container">
-        {% for loop_index, shopping_list in shopping_lists %}
+    <div id="shopping-list-table" class="container row mx-auto my-3">
+        {% for shopping_list in shopping_lists %}
 
-            <div class="shopping-list-item {% if loop_index < 3 %}detailed{% endif %}">
+            <div class="col-lg-4 col-md-6 col-12 p-3">
+                <div class="d-flex flex-column justify-content-between p-3 h-100 bg-success-subtle border border-black border-opacity-10 shadow position-relative">
 
-                <h3>{{ shopping_list.name }}</h3>
+                    <img
+                            src="{{ asset('images/thumbtack-' ~ random(1, 3) ~ '.png') }}" alt="Thumbtack Image"
+                            class="sl-thumbtack"
+                    >
+                    
+                    <div class="lh-sm">
+                        <p><strong>List ID:</strong> {{ shopping_list.id }}</p>
+                        <p><strong>Number of products:</strong> {{ shopping_list.nbProducts }}</p>
+                        <p><strong>Products:</strong></p>
 
-                {% if loop_index < 3 %}
+                        <ul class="lh-base">
+                            {% for listed_product in shopping_list.listedProducts %}
 
-                    <p><strong>Id:</strong> {{ shopping_list.id }}</p>
-                    <p><strong>NbProducts:</strong> {{ shopping_list.nbProducts }}</p>
-                    <p><strong>Products:</strong></p>
+                                <li>{{ listed_product.product.name }}</li>
 
-                {% else %}
+                            {% endfor %}
+                        </ul>
+                    </div>
 
-                    <p><strong>NbProducts:</strong> {{ shopping_list.nbProducts }}</p>
+                    <div class="d-flex justify-content-end gap-2 align-items-center">
+                        <a href="{{ path('app_shopping_list_show', {'id': shopping_list.id}) }}">Show</a>
+                        <a href="{{ path('app_shopping_list_edit', {'id': shopping_list.id}) }}" class="">Edit</a>
 
-                {% endif %}
-                
-                <div class="actions">
-
-                    <a href="{{ path('app_shopping_list_show', {'id': shopping_list.id}) }}">show</a>
-                    <a href="{{ path('app_shopping_list_edit', {'id': shopping_list.id}) }}">edit</a>
+                        {{ include('shopping_list/_delete_form.html.twig', { 'shopping_list': shopping_list }) }}
+                    </div>
 
                 </div>
             </div>
@@ -36,7 +43,7 @@
         {% else %}
 
             <p>No records found</p>
-            
+
         {% endfor %}
     </div>
 
@@ -46,5 +53,5 @@
     {% if is_granted('ROLE_ADMIN') %}
         <a href="{{ path('app_admin') }}">Admin</a>
     {% endif %}
-{% endblock %}
 
+{% endblock %}

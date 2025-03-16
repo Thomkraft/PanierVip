@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\ListedProduct;
 use App\Entity\ShoppingList;
 use App\Form\ShoppingListType;
 use App\Repository\ShoppingListRepository;
@@ -11,7 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/shopping_list')]
+#[Route('/shopping/list')]
 final class ShoppingListController extends AbstractController
 {
     #[Route(name: 'app_shopping_list_index', methods: ['GET'])]
@@ -26,10 +27,18 @@ final class ShoppingListController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $shoppingList = new ShoppingList();
+
+        // Add first listed product fields
+        $listedProduct = new ListedProduct();
+        $shoppingList->addListedProduct($listedProduct);
+
         $form = $this->createForm(ShoppingListType::class, $shoppingList);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // Update nbProducts before register
+            $shoppingList->setNbProducts(count($shoppingList->getListedProducts()));
+
             $entityManager->persist($shoppingList);
             $entityManager->flush();
 
