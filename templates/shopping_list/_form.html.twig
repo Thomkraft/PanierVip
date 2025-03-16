@@ -1,4 +1,68 @@
+{# Store listed product prototype fields #}
+{% set prototype_product = form_widget(form.listedProducts.vars.prototype.product) %}
+{% set prototype_quantity = form_widget(form.listedProducts.vars.prototype.quantity) %}
+{% set prototype_bought = form_widget(form.listedProducts.vars.prototype.bought) %}
+
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+
+<div class="mb-3">
+    <h5>Add new product</h5>
+
+    <div id="new-listed-products-container">
+
+        {% for listedProduct in form.listedProducts %}
+            <div class="d-flex flex-row align-items-center listed-product-form">
+                {{ form_row(listedProduct.product) }}
+                {{ form_row(listedProduct.quantity) }}
+                <div class="d-none">{{ form_row(listedProduct.bought) }}</div>
+                <button type="button" class="btn btn-danger remove-listed-product">X</button>
+            </div>
+        {% else %}
+            <p>No added products</p>
+        {% endfor %}
+
+    </div>
+
+    <button type="button" class="btn btn-primary my-3" id="add-listed-product">Add new product</button>
+
+</div>
+
+<button class="btn btn-success" type="submit">{{ button_label|default('Save') }}</button>
+
 {{ form_end(form) }}
+
+{% block javascripts %}
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let listedProductsContainer = document.getElementById("new-listed-products-container");
+            let addButton = document.getElementById("add-listed-product");
+
+            // Get current number of elements
+            let index = {{ form.listedProducts|length }};
+
+            // Recover new listed product prototype fields
+            let prototypeTemplate = `
+                <div class="d-flex flex-row align-items-center listed-product-form">
+                    <div class="me-2">{{ prototype_product|e('js') }}</div>
+                    <div class="me-2">{{ prototype_quantity|e('js') }}</div>
+                    <div class="d-none">{{ prototype_bought|e('js') }}</div>
+                    <button type="button" class="btn btn-danger remove-listed-product">X</button>
+                </div>`;
+
+            addButton.addEventListener("click", function () {
+                let newProductForm = prototypeTemplate.replace(/__name__/g, index);
+                let newProduct = document.createElement("div");
+                newProduct.innerHTML = newProductForm;
+                listedProductsContainer.appendChild(newProduct);
+                index++;
+            });
+
+            // Suppression d'un produit ajouté
+            listedProductsContainer.addEventListener("click", function (event) {
+                if (event.target.classList.contains("remove-listed-product")) {
+                    event.target.closest(".listed-product-form").remove();
+                }
+            });
+        });
+    </script>
+{% endblock %}

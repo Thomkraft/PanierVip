@@ -15,38 +15,23 @@ class ShoppingList
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 50)]
-    private ?string $name = null;
-
     #[ORM\Column]
-    private ?int $nbProducts = 0;
+    private ?int $nbProducts = null;
 
     /**
-     * @var Collection<int, Quantity>
+     * @var Collection<int, ListedProduct>
      */
-    #[ORM\ManyToMany(targetEntity: Quantity::class)]
-    private Collection $products;
+    #[ORM\OneToMany(targetEntity: ListedProduct::class, mappedBy: 'shoppingList', cascade: ['persist', 'remove'])]
+    private Collection $listedProducts;
 
     public function __construct()
     {
-        $this->products = new ArrayCollection();
+        $this->listedProducts = new ArrayCollection();
     }
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
-
-    public function setName(string $name): static
-    {
-        $this->name = $name;
-
-        return $this;
     }
 
     public function getNbProducts(): ?int
@@ -62,25 +47,31 @@ class ShoppingList
     }
 
     /**
-     * @return Collection<int, Quantity>
+     * @return Collection<int, ListedProduct>
      */
-    public function getProducts(): Collection
+    public function getListedProducts(): Collection
     {
-        return $this->products;
+        return $this->listedProducts;
     }
 
-    public function addProduct(Quantity $product): static
+    public function addListedProduct(ListedProduct $listedProduct): static
     {
-        if (!$this->products->contains($product)) {
-            $this->products->add($product);
+        if (!$this->listedProducts->contains($listedProduct)) {
+            $this->listedProducts->add($listedProduct);
+            $listedProduct->setShoppingList($this);
         }
 
         return $this;
     }
 
-    public function removeProduct(Quantity $product): static
+    public function removeListedProduct(ListedProduct $listedProduct): static
     {
-        $this->products->removeElement($product);
+        if ($this->listedProducts->removeElement($listedProduct)) {
+            // set the owning side to null (unless already changed)
+            if ($listedProduct->getShoppingList() === $this) {
+                $listedProduct->setShoppingList(null);
+            }
+        }
 
         return $this;
     }
