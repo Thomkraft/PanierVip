@@ -21,6 +21,7 @@ class UserFixtures extends Fixture
         $usersData = [
             ['email' => 'alecpetitsiejak@gmail.com', 'pseudo' => 'AlecPts', 'roles' => [], 'password' => 'alecalec', 'is_admin' => 0],
             ['email' => 'admin@gmail.com', 'pseudo' => 'Admin', 'roles' => [], 'password' => 'admin', 'is_admin' => 1],
+            ['email' => 'thomas.kng69@gmail.com', 'pseudo' => 'thomkraft', 'roles' => [], 'password' => 'admin', 'is_admin' => 1],
         ];
 
         foreach ($usersData as $data) {
