@@ -40,6 +40,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(options: ['default' => false])]
     private ?bool $isAdmin = false;
 
+    public function setIsAdmin(bool $isAdmin): self
+    {
+        $this->isAdmin = $isAdmin;
+        return $this;
+    }
+
     public function isAdmin() : ?bool
     {
         return $this->isAdmin;
