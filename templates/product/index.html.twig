@@ -25,8 +25,8 @@
                 <td>{{ product.euros }}</td>
                 <td>{{ product.centimes }}</td>
                 <td>
-                    <a href="{{ path('app_product_show', {'id': product.id}) }}">show</a>
-                    <a href="{{ path('app_product_edit', {'id': product.id}) }}">edit</a>
+                    <a href="{{ path('app_admin_product_show', {'id': product.id}) }}">show</a>
+                    <a href="{{ path('app_admin_product_edit', {'id': product.id}) }}">edit</a>
                 </td>
             </tr>
         {% else %}
@@ -37,5 +37,6 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_product_new') }}">Create new</a>
+    <a href="{{ path('app_admin_product_new') }}">Create new</a>
+    <a href="{{ path('app_admin') }}">back</a>
 {% endblock %}
