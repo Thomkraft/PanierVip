@@ -27,11 +27,6 @@ final class ShoppingListController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $shoppingList = new ShoppingList();
-
-        // Add first listed product fields
-        $listedProduct = new ListedProduct();
-        $shoppingList->addListedProduct($listedProduct);
-
         $form = $this->createForm(ShoppingListType::class, $shoppingList);
         $form->handleRequest($request);
 
