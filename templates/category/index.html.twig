@@ -20,9 +20,9 @@
                 <td>{{ category.id }}</td>
                 <td>{{ category.name }}</td>
                 <td>
-                        {% for product in category.products %}
-                            <p>{{ product.name }}, <p>
-                        {% endfor %}
+                    {% for product in category.products %}
+                        {{ product.name }}{% if not loop.last %}, {% endif %}
+                    {% endfor %}
                 </td>
                 <td>
                     <a href="{{ path('app_category_show', {'id': category.id}) }}">show</a>
