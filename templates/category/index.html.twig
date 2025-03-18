@@ -1,17 +1,18 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Category Manager{% endblock %}
+{% block title %}Category index{% endblock %}
 
 {% block body %}
-    <h1>Category Manager</h1>
+    <h1>Category index</h1>
 
     <table class="table">
         <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>actions</th>
-            </tr>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Products</th>
+            <th>actions</th>
+        </tr>
         </thead>
         <tbody>
         {% for category in categories %}
@@ -19,17 +20,23 @@
                 <td>{{ category.id }}</td>
                 <td>{{ category.name }}</td>
                 <td>
-                    <a href="{{ path('app_category_show', {'id': category.id}) }}">show</a>
-                    <a href="{{ path('app_category_edit', {'id': category.id}) }}">edit</a>
+                    {% for product in category.products %}
+                        {{ product.name }}{% if not loop.last %}, {% endif %}
+                    {% endfor %}
+                </td>
+                <td>
+                    <a href="{{ path('app_admin_category_show', {'id': category.id}) }}">show</a>
+                    <a href="{{ path('app_admin_category_edit', {'id': category.id}) }}">edit</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="3">no records found</td>
+                <td colspan="4">no records found</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('app_category_new') }}">Create new</a>
+    <a href="{{ path('app_admin_category_new') }}">Create new</a>
+    <a href="{{ path('app_admin') }}">back</a>
 {% endblock %}
