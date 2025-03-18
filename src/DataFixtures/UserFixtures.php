@@ -28,6 +28,7 @@ class UserFixtures extends Fixture
             $user->setEmail($data['email']);
             $user->setPseudo($data['pseudo']);
             $user->setRoles($data['roles']);
+            $user->setIsAdmin($data['is_admin']);
 
             // Hash password
             $hashedPassword = $this->passwordHasher->hashPassword($user, $data['password']);
