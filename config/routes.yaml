@@ -21,4 +21,13 @@ app_logout:
 
 app_admin:
     path: /admin
+    controller: App\Controller\AdminController::index
+
+app_admin_product_add:
+    path: /admin/product
     controller: App\Controller\ProductController::index
+
+app_admin_product_category:
+    path: /admin/category
+    controller: App\Controller\CategoryController::index
+

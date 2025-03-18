@@ -19,7 +19,7 @@ class UserFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         $usersData = [
-            ['email' => 'alecpetitsiejak@gmail.com', 'pseudo' => 'AlecPts', 'roles' => [], 'password' => 'alecalec', 'is_admin' => 0],
+            ['email' => 'tom.frumy170@gmail.com', 'pseudo' => 'Tom', 'roles' => [], 'password' => 'nasa', 'is_admin' => 0],
             ['email' => 'admin@gmail.com', 'pseudo' => 'Admin', 'roles' => [], 'password' => 'admin', 'is_admin' => 1],
         ];
 

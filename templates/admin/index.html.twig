@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin{% endblock %}
+
+{% block body %}
+    <h1>Admin Page</h1>
+    <ul>
+        <li><a href="{{ path('app_admin_product_add') }}">Products Manager</a></li>
+        <li><a href="{{ path('app_admin_product_category') }}">Categories Manager</a></li>
+    </ul>
+{% endblock %}
