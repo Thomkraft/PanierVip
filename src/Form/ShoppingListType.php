@@ -9,6 +9,9 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Count;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
+use Symfony\Component\Validator\Constraints\Callback;
 
 class ShoppingListType extends AbstractType
 {
@@ -21,6 +24,10 @@ class ShoppingListType extends AbstractType
                 'allow_delete' => true,
                 'by_reference' => false,
                 'prototype' => true,
+                'constraints' => [
+                    new Count(['min' => 1]),
+                    new Callback($this->validateUniqueProducts(...))
+                ],
             ]);
     }
 
@@ -29,5 +36,22 @@ class ShoppingListType extends AbstractType
         $resolver->setDefaults([
             'data_class' => ShoppingList::class,
         ]);
+    }
+
+    public function validateUniqueProducts($listedProducts,ExecutionContextInterface $context): void
+    {
+        $productNames = [];
+
+        foreach ($listedProducts as $key => $listedProduct) {
+            $productName = $listedProduct->getProduct()->getName();
+
+            if (in_array($productName, $productNames)) {
+                $context->buildViolation("Each product must be unique in the list.")
+                    ->atPath("listedProducts.product") // Associe l'erreur au champ "product"
+                    ->addViolation();
+            }
+
+            $productNames[] = $productName;
+        }
     }
 }

@@ -11,15 +11,21 @@
     <div id="new-listed-products-container">
 
         {% for listedProduct in form.listedProducts %}
-            <div class="d-flex flex-row align-items-center listed-product-form">
+            <div class="d-flex flex-row align-items-center gap-2 listed-product-form">
+
                 {{ form_row(listedProduct.product) }}
                 {{ form_row(listedProduct.quantity) }}
                 <div class="d-none">{{ form_row(listedProduct.bought) }}</div>
                 <button type="button" class="btn btn-danger remove-listed-product">X</button>
             </div>
+
         {% else %}
             <p>No added products</p>
         {% endfor %}
+
+        <div class="text-danger">
+            {{ form_errors(form) }}
+        </div>
 
     </div>
 
@@ -37,10 +43,8 @@
             let listedProductsContainer = document.getElementById("new-listed-products-container");
             let addButton = document.getElementById("add-listed-product");
 
-            // Get current number of elements
             let index = {{ form.listedProducts|length }};
 
-            // Recover new listed product prototype fields
             let prototypeTemplate = `
                 <div class="d-flex flex-row align-items-center listed-product-form">
                     <div class="me-2">{{ prototype_product|e('js') }}</div>
@@ -49,20 +53,48 @@
                     <button type="button" class="btn btn-danger remove-listed-product">X</button>
                 </div>`;
 
+            function updateProductOptions() {
+                let selectedProducts = Array.from(document.querySelectorAll(".listed-product-form select"))
+                    .map(select => select.value)
+                    .filter(value => value !== "");
+
+                document.querySelectorAll(".listed-product-form select").forEach(select => {
+                    select.querySelectorAll("option").forEach(option => {
+                        if (selectedProducts.includes(option.value) && option.value !== select.value) {
+                            option.hidden = true;
+                        } else {
+                            option.hidden = false;
+                        }
+                    });
+                });
+            }
+
             addButton.addEventListener("click", function () {
                 let newProductForm = prototypeTemplate.replace(/__name__/g, index);
                 let newProduct = document.createElement("div");
                 newProduct.innerHTML = newProductForm;
                 listedProductsContainer.appendChild(newProduct);
                 index++;
+
+                updateProductOptions();
             });
 
-            // Suppression d'un produit ajouté
             listedProductsContainer.addEventListener("click", function (event) {
                 if (event.target.classList.contains("remove-listed-product")) {
                     event.target.closest(".listed-product-form").remove();
+                    updateProductOptions();
                 }
             });
+
+            listedProductsContainer.addEventListener("change", function (event) {
+                if (event.target.tagName === "SELECT") {
+                    updateProductOptions();
+                }
+            });
+
+            updateProductOptions();
         });
+
+
     </script>
 {% endblock %}

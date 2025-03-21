@@ -24,6 +24,10 @@ class ShoppingList
     #[ORM\OneToMany(targetEntity: ListedProduct::class, mappedBy: 'shoppingList', cascade: ['persist', 'remove'])]
     private Collection $listedProducts;
 
+    #[ORM\ManyToOne(inversedBy: 'shoppingLists')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $utilisateur = null;
+
     public function __construct()
     {
         $this->listedProducts = new ArrayCollection();
@@ -44,6 +48,15 @@ class ShoppingList
         $this->nbProducts = $nbProducts;
 
         return $this;
+    }
+
+    public function calculateNbProducts(): void
+    {
+        if (!$this->listedProducts->isEmpty()) {
+            foreach ($this->listedProducts as $product) {
+                $this->nbProducts += $product->getQuantity();
+            }
+        }
     }
 
     /**
@@ -72,6 +85,18 @@ class ShoppingList
                 $listedProduct->setShoppingList(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getUtilisateur(): ?User
+    {
+        return $this->utilisateur;
+    }
+
+    public function setUtilisateur(?User $utilisateur): static
+    {
+        $this->utilisateur = $utilisateur;
 
         return $this;
     }
