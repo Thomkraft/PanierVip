@@ -22,6 +22,7 @@ class UserFixtures extends Fixture
             ['email' => 'tom.frumy170@gmail.com', 'pseudo' => 'Tom', 'roles' => [], 'password' => 'nasa', 'is_admin' => 0],
             ['email' => 'admin@gmail.com', 'pseudo' => 'Admin', 'roles' => [], 'password' => 'admin', 'is_admin' => 1],
             ['email' => 'thomas.kng69@gmail.com', 'pseudo' => 'thomkraft', 'roles' => [], 'password' => 'admin', 'is_admin' => 1],
+            ['email' => 'minh@ad.fr', 'pseudo' => 'Admin', 'roles' => [], 'password' => 'admin', 'is_admin' => 1],
         ];
 
         foreach ($usersData as $data) {
