@@ -7,6 +7,7 @@
 
     <div id="shopping-list-table" class="container row mx-auto my-3">
         {% for shopping_list in shopping_lists %}
+
             {% if shopping_list.utilisateur.id == user.id %}
                 <div class="col-lg-4 col-md-6 col-12 p-3">
                     <div class="d-flex flex-column justify-content-between p-3 h-100 bg-success-subtle border border-black border-opacity-10 shadow position-relative">
@@ -17,7 +18,8 @@
                         >
 
                         <div class="lh-sm">
-                            <p><strong>List ID:</strong> {{ shopping_list.id }}</p>
+                            <p><strong>Name :</strong> {{ shopping_list.name }}</p>
+
                             <p><strong>Number of products:</strong> {{ shopping_list.nbProducts }}</p>
                             <p><strong>Products:</strong></p>
 
