@@ -28,6 +28,9 @@ class ShoppingList
     #[ORM\JoinColumn(nullable: false)]
     private ?User $utilisateur = null;
 
+    #[ORM\Column(length: 150)]
+    private ?string $name = null;
+
     public function __construct()
     {
         $this->listedProducts = new ArrayCollection();
@@ -97,6 +100,18 @@ class ShoppingList
     public function setUtilisateur(?User $utilisateur): static
     {
         $this->utilisateur = $utilisateur;
+
+        return $this;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): static
+    {
+        $this->name = $name;
 
         return $this;
     }
