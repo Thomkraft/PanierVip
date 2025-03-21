@@ -3,9 +3,11 @@
 {% block title %}New ShoppingList{% endblock %}
 
 {% block body %}
-    <h1>Create new ShoppingList</h1>
+    <div class="position-relative">
 
-    {{ include('shopping_list/_form.html.twig') }}
+        <h1 class="shopping-list-title">New shopping list</h1>
 
-    <a href="{{ path('app_shopping_list_index') }}">back to list</a>
+        {{ include('shopping_list/_form.html.twig') }}
+
+    </div>
 {% endblock %}
