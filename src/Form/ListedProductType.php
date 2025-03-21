@@ -28,6 +28,7 @@ class ListedProductType extends AbstractType
             ->add('bought', CheckboxType::class, [
                 'label' => false,
                 'required' => false,
+                'attr' => ['class' => 'form-check-input'],
             ]);
 //            ->add('shoppingList', EntityType::class, [
 //                'class' => ShoppingList::class,
