@@ -22,7 +22,7 @@
     {% for listed_product in shopping_list.listedProducts %}
 
         <div class="card text-bg-dark mb-3" style="max-width: 18rem;">
-            <div class="card-body">
+            <div class="card-body" style="{% if listed_product.bought %}text-decoration: line-through;{% endif %}">
                 <h5 class="card-title">{{ listed_product.product.name }}</h5>
                 <ul>
                     <li> Quantité : {{ listed_product.quantity }} </li>
