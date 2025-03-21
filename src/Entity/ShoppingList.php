@@ -28,7 +28,7 @@ class ShoppingList
     #[ORM\JoinColumn(nullable: false)]
     private ?User $utilisateur = null;
 
-    #[ORM\Column(length: 150)]
+    #[ORM\Column(type: 'string', length: 150)]
     private ?string $name = null;
 
     public function __construct()
