@@ -21,11 +21,15 @@ class ShoppingListType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, [
-                'label' => 'Name of your list',
+                'label' => false,
                 'required' => true,
-                'attr' => ['class' => 'form-control']
+                'attr' => [
+                    'class' => 'form-control',
+                    'placeholder' => 'Name of your list',
+                ]
             ])
             ->add('listedProducts', CollectionType::class, [
+                'label' => false,
                 'entry_type' => ListedProductType::class,
                 'allow_add' => true,
                 'allow_delete' => true,

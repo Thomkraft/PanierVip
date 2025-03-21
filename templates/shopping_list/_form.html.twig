@@ -5,40 +5,52 @@
 
 {{ form_start(form) }}
 
-<div class="mb-3">
-    <h5>Add new product</h5>
+<div class="shopping-list d-flex flex-column">
+    <div class="shopping-list-container">
 
-    <div id="new-listed-products-container">
+        <div class="mb-3">{{ form_row(form.name) }}</div>
 
-        {{ form_row(form.name) }}
+        <div id="new-listed-products-container"></div>
+            {% for listedProduct in form.listedProducts %}
+                <div class="d-flex flex-row align-items-center listed-product-form mb-2 gap-3">
+                    {{ form_row(listedProduct.product) }}
+                    {{ form_row(listedProduct.quantity) }}
 
-        {% for listedProduct in form.listedProducts %}
-            <div class="d-flex flex-row align-items-center gap-2 listed-product-form">
+                    {% if (app.request.pathinfo == '/shopping/list/new') != 1 %}
+                        {{ form_row(listedProduct.bought) }}
+                    {% endif %}
 
-                {{ form_row(listedProduct.product) }}
-                {{ form_row(listedProduct.quantity) }}
+                    <svg class="remove-product-btn" fill="#000000" width="30px" height="30px" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" onclick=>
+                        <path class="remove-product-btn" d="M18.8,16l5.5-5.5c0.8-0.8,0.8-2,0-2.8l0,0C24,7.3,23.5,7,23,7c-0.5,0-1,0.2-1.4,0.6L16,13.2l-5.5-5.5  c-0.8-0.8-2.1-0.8-2.8,0C7.3,8,7,8.5,7,9.1s0.2,1,0.6,1.4l5.5,5.5l-5.5,5.5C7.3,21.9,7,22.4,7,23c0,0.5,0.2,1,0.6,1.4  C8,24.8,8.5,25,9,25c0.5,0,1-0.2,1.4-0.6l5.5-5.5l5.5,5.5c0.8,0.8,2.1,0.8,2.8,0c0.8-0.8,0.8-2.1,0-2.8L18.8,16z"/>
+                    </svg>
+                </div>
 
-                {% if (app.request.pathinfo == '/shopping/list/new') != 1 %}
-                    {{ form_row(listedProduct.bought) }}
-                {% endif %}
-                <button type="button" class="btn btn-danger remove-listed-product">X</button>
+
+
+                {#        {% else %} #}
+                {#            <p>No added products</p> #}
+            {% endfor %}
+
+            <div class="text-danger">
+                {{ form_errors(form) }}
             </div>
-
-        {% else %}
-            <p>No added products</p>
-        {% endfor %}
-
-        <div class="text-danger">
-            {{ form_errors(form) }}
-        </div>
-
     </div>
 
-    <button type="button" class="btn btn-primary my-3" id="add-listed-product">Add new product</button>
-
+    <div class="">
+        <button class="btn btn-primary my-3 w-50" id="add-listed-product" type="button" >Add product</button>
+        <button class="btn btn-success" type="submit">{{ button_label|default('Save') }}</button>
+        <a class="link-danger" href="{{ path('app_shopping_list_index') }}">Cancel</a>
+    </div>
 </div>
 
-<button class="btn btn-success" type="submit">{{ button_label|default('Save') }}</button>
+<a href="{{ path('app_shopping_list_index') }}">
+    <svg class="position-absolute top-0" width="40px" height="40px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <g id="Arrow / Arrow_Left_MD">
+            <path id="Vector" d="M19 12H5M5 12L11 18M5 12L11 6" stroke="#5a5a5a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </g>
+        back to list
+    </svg>
+</a>
 
 {{ form_end(form) }}
 
@@ -51,15 +63,17 @@
             let index = {{ form.listedProducts|length }};
 
             let prototypeTemplate = `
-                <div class="d-flex flex-row align-items-center listed-product-form">
-                    <div class="me-2">{{ prototype_product|e('js') }}</div>
-                    <div class="me-2">{{ prototype_quantity|e('js') }}</div>
+                <div class="d-flex flex-row align-items-center listed-product-form mb-2 gap-3">
+                    {{ prototype_product|e('js') }}
+                    {{ prototype_quantity|e('js') }}
 
                     {% if (app.request.pathinfo != '/shopping-list/new') != 1 %}
-                        <div class="me-2">{{ prototype_bought|e('js') }}</div>
+                        {{ prototype_bought|e('js') }}
                     {% endif %}
 
-                    <button type="button" class="btn btn-danger remove-listed-product">X</button>
+                    <svg class="remove-product-btn" fill="#000000" width="30px" height="30px" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" onclick=>
+                        <path class="remove-product-btn" d="M18.8,16l5.5-5.5c0.8-0.8,0.8-2,0-2.8l0,0C24,7.3,23.5,7,23,7c-0.5,0-1,0.2-1.4,0.6L16,13.2l-5.5-5.5  c-0.8-0.8-2.1-0.8-2.8,0C7.3,8,7,8.5,7,9.1s0.2,1,0.6,1.4l5.5,5.5l-5.5,5.5C7.3,21.9,7,22.4,7,23c0,0.5,0.2,1,0.6,1.4  C8,24.8,8.5,25,9,25c0.5,0,1-0.2,1.4-0.6l5.5-5.5l5.5,5.5c0.8,0.8,2.1,0.8,2.8,0c0.8-0.8,0.8-2.1,0-2.8L18.8,16z"/>
+                    </svg>
                 </div>`;
 
             function updateProductOptions() {
@@ -89,7 +103,9 @@
             });
 
             listedProductsContainer.addEventListener("click", function (event) {
-                if (event.target.classList.contains("remove-listed-product")) {
+                console.log(event.target)
+
+                if (event.target.classList.contains("remove-product-btn")) {
                     event.target.closest(".listed-product-form").remove();
                     updateProductOptions();
                 }
