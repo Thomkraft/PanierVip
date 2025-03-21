@@ -20,7 +20,7 @@ class ProductType extends AbstractType
             ->add('centimes')
             ->add('category', EntityType::class, [
                 'class' => Category::class,
-                'choice_label' => 'id',
+                'choice_label' => 'name',
             ])
         ;
     }

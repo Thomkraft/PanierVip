@@ -31,7 +31,6 @@ class ShoppingList
     #[ORM\Column(type: 'string', length: 150)]
     private ?string $name = null;
 
-
     public function __construct()
     {
         $this->listedProducts = new ArrayCollection();
@@ -113,6 +112,7 @@ class ShoppingList
     public function setName(string $name): static
     {
         $this->name = $name;
+
         return $this;
     }
 }
