@@ -28,7 +28,8 @@
 
                                     {% if loop.index0 <= 2 %}
 
-                                        <li><strong>{{ listed_product.product.name }}</strong> x
+                                        <li style="{% if listed_product.bought %}text-decoration: line-through;{% endif %}"
+                                        ><strong>{{ listed_product.product.name }}</strong> x
                                              {{ listed_product.quantity }} :
                                             {{ listed_product.product.weight * listed_product.quantity}}g ,
                                             {{ _self.total_price(listed_product.product, listed_product.quantity) }}

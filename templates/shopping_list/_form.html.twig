@@ -17,7 +17,10 @@
 
                 {{ form_row(listedProduct.product) }}
                 {{ form_row(listedProduct.quantity) }}
-                <div class="d-none">{{ form_row(listedProduct.bought) }}</div>
+
+                {% if (app.request.pathinfo == '/shopping/list/new') != 1 %}
+                    {{ form_row(listedProduct.bought) }}
+                {% endif %}
                 <button type="button" class="btn btn-danger remove-listed-product">X</button>
             </div>
 
@@ -51,7 +54,11 @@
                 <div class="d-flex flex-row align-items-center listed-product-form">
                     <div class="me-2">{{ prototype_product|e('js') }}</div>
                     <div class="me-2">{{ prototype_quantity|e('js') }}</div>
-                    <div class="d-none">{{ prototype_bought|e('js') }}</div>
+
+                    {% if (app.request.pathinfo != '/shopping-list/new') != 1 %}
+                        <div class="me-2">{{ prototype_bought|e('js') }}</div>
+                    {% endif %}
+
                     <button type="button" class="btn btn-danger remove-listed-product">X</button>
                 </div>`;
 
