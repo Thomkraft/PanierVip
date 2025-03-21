@@ -13,7 +13,9 @@
                 <th>Weight</th>
                 <th>Euros</th>
                 <th>Centimes</th>
+                <th>Category</th>
                 <th>actions</th>
+
             </tr>
         </thead>
         <tbody>
@@ -24,10 +26,12 @@
                 <td>{{ product.weight }}</td>
                 <td>{{ product.euros }}</td>
                 <td>{{ product.centimes }}</td>
+                <td>{{ product.category.name }}</td>
                 <td>
                     <a href="{{ path('app_admin_product_show', {'id': product.id}) }}">show</a>
                     <a href="{{ path('app_admin_product_edit', {'id': product.id}) }}">edit</a>
                 </td>
+
             </tr>
         {% else %}
             <tr>
