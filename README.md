@@ -10,6 +10,10 @@ composer install
 php bin/console doctrine:schema:update --force
 php bin/console doctrine:fixtures:load
 
+Admin acount : 
+Email : minh@ad.fr
+password : admin
+
 npm run watch
 
 ```
