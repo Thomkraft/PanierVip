@@ -7,38 +7,52 @@
 
     <div id="shopping-list-table" class="container row mx-auto my-3">
         {% for shopping_list in shopping_lists %}
+            {% if shopping_list.utilisateur.id == user.id %}
+                <div class="col-lg-4 col-md-6 col-12 p-3">
+                    <div class="d-flex flex-column justify-content-between p-3 h-100 bg-success-subtle border border-black border-opacity-10 shadow position-relative">
 
-            <div class="col-lg-4 col-md-6 col-12 p-3">
-                <div class="d-flex flex-column justify-content-between p-3 h-100 bg-success-subtle border border-black border-opacity-10 shadow position-relative">
+                        <img
+                                src="{{ asset('images/thumbtack-' ~ random(1, 3) ~ '.png') }}" alt="Thumbtack Image"
+                                class="sl-thumbtack"
+                        >
 
-                    <img
-                            src="{{ asset('images/thumbtack-' ~ random(1, 3) ~ '.png') }}" alt="Thumbtack Image"
-                            class="sl-thumbtack"
-                    >
-                    
-                    <div class="lh-sm">
-                        <p><strong>List ID:</strong> {{ shopping_list.id }}</p>
-                        <p><strong>Number of products:</strong> {{ shopping_list.nbProducts }}</p>
-                        <p><strong>Products:</strong></p>
+                        <div class="lh-sm">
+                            <p><strong>List ID:</strong> {{ shopping_list.id }}</p>
+                            <p><strong>Number of products:</strong> {{ shopping_list.nbProducts }}</p>
+                            <p><strong>Products:</strong></p>
 
-                        <ul class="lh-base">
-                            {% for listed_product in shopping_list.listedProducts %}
+                            <ul class="lh-base">
+                                {% for listed_product in shopping_list.listedProducts %}
 
-                                <li>{{ listed_product.product.name }}</li>
+                                    {% if loop.index0 <= 2 %}
 
-                            {% endfor %}
-                        </ul>
+                                        <li><strong>{{ listed_product.product.name }}</strong> x
+                                             {{ listed_product.quantity }} :
+                                            {{ listed_product.product.weight * listed_product.quantity}}g ,
+                                            {{ _self.total_price(listed_product.product, listed_product.quantity) }}
+                                        </li>
+
+                                    {% else %}
+
+                                        {% if loop.last %}
+                                            <li> ... </li>
+                                        {% endif %}
+                                    {% endif %}
+
+                                {% endfor %}
+                            </ul>
+                        </div>
+
+                        <div class="d-flex justify-content-end gap-2 align-items-center">
+                            <a href="{{ path('app_shopping_list_show', {'id': shopping_list.id}) }}">Show</a>
+                            <a href="{{ path('app_shopping_list_edit', {'id': shopping_list.id}) }}" class="">Edit</a>
+
+                            {{ include('shopping_list/_delete_form.html.twig', { 'shopping_list': shopping_list }) }}
+                        </div>
+
                     </div>
-
-                    <div class="d-flex justify-content-end gap-2 align-items-center">
-                        <a href="{{ path('app_shopping_list_show', {'id': shopping_list.id}) }}">Show</a>
-                        <a href="{{ path('app_shopping_list_edit', {'id': shopping_list.id}) }}" class="">Edit</a>
-
-                        {{ include('shopping_list/_delete_form.html.twig', { 'shopping_list': shopping_list }) }}
-                    </div>
-
                 </div>
-            </div>
+            {% endif %}
 
         {% else %}
 
@@ -55,3 +69,13 @@
     {% endif %}
 
 {% endblock %}
+
+{% macro total_price(product, quantity) %}
+    {% set total_centimes = (product.euros * 100 + product.centimes) * quantity %}
+    {% set total_euros = (total_centimes // 100) %}
+    {% set remaining_centimes = (total_centimes % 100) %}
+    {%if remaining_centimes == 0 %}
+    {% set remaining_centimes = '' %}
+    {% endif %}
+    {{ total_euros }}€{{ remaining_centimes }}
+{% endmacro %}

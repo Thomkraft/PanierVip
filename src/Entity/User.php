@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -39,6 +41,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(options: ['default' => false])]
     private ?bool $isAdmin = false;
+
+    /**
+     * @var Collection<int, ShoppingList>
+     */
+    #[ORM\OneToMany(targetEntity: ShoppingList::class, mappedBy: 'utilisateur', orphanRemoval: true)]
+    private Collection $shoppingLists;
+
+    public function __construct()
+    {
+        $this->shoppingLists = new ArrayCollection();
+    }
 
     public function setIsAdmin(bool $isAdmin): self
     {
@@ -139,5 +152,35 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    /**
+     * @return Collection<int, ShoppingList>
+     */
+    public function getShoppingLists(): Collection
+    {
+        return $this->shoppingLists;
+    }
+
+    public function addShoppingList(ShoppingList $shoppingList): static
+    {
+        if (!$this->shoppingLists->contains($shoppingList)) {
+            $this->shoppingLists->add($shoppingList);
+            $shoppingList->setUtilisateur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeShoppingList(ShoppingList $shoppingList): static
+    {
+        if ($this->shoppingLists->removeElement($shoppingList)) {
+            // set the owning side to null (unless already changed)
+            if ($shoppingList->getUtilisateur() === $this) {
+                $shoppingList->setUtilisateur(null);
+            }
+        }
+
+        return $this;
     }
 }

@@ -5,22 +5,58 @@
 {% block body %}
     <h1>ShoppingList</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ shopping_list.id }}</td>
-            </tr>
-            <tr>
-                <th>Nb_products</th>
-                <td>{{ shopping_list.nbProducts }}</td>
-            </tr>
-        </tbody>
-    </table>
 
-    <a href="{{ path('app_shopping_list_index') }}">back to list</a>
+    <div class="card text-bg-info mb-3" style="max-width: 18rem;">
+        <div class="card-body">
+            <h5 class="card-title">Infos Générale</h5>
+            <ul>
+                <li>Nom de la liste : {{ shopping_list.id }}</li>
 
-    <a href="{{ path('app_shopping_list_edit', {'id': shopping_list.id}) }}">edit</a>
+                <li>Nombres de produits : {{ shopping_list.nbProducts }}</li>
+            </ul>
+        </div>
+    </div>
 
-    {{ include('shopping_list/_delete_form.html.twig') }}
+<div class="d-flex flex-row justify-content-start p-3 gap-5 h-100 bg-success-subtle border border-black border-opacity-10 shadow position-relative">
+
+    {% for listed_product in shopping_list.listedProducts %}
+
+        <div class="card text-bg-dark mb-3" style="max-width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title">{{ listed_product.product.name }}</h5>
+                <ul>
+                    <li> Quantité : {{ listed_product.quantity }} </li>
+                    <li> Poids : {{ listed_product.product.weight * listed_product.quantity}}g </li>
+                    <li> Prix : {{ _self.total_price(listed_product.product, listed_product.quantity) }} </li>
+                </ul>
+            </div>
+        </div>
+
+
+    {% endfor %}
+
+</div>
+
+    <div class="btn-group pt-3" role="group" aria-label="Basic example">
+
+        <a href="{{ path('app_shopping_list_index') }}" class="btn btn-primary rounded-3 me-2">Back to list</a>
+
+        <a href="{{ path('app_shopping_list_edit', {'id': shopping_list.id}) }}" class="btn btn-primary rounded-3 me-2">Edit</a>
+
+        <form action="{{ path('app_shopping_list_delete', {'id': shopping_list.id}) }}" method="post" style="display: inline;">
+            <button type="submit" class="btn btn-danger rounded-3" onclick="return confirm('Are you sure you want to delete this shopping list?')">Delete</button>
+        </form>
+    </div>
+
+
 {% endblock %}
+
+{% macro total_price(product, quantity) %}
+    {% set total_centimes = (product.euros * 100 + product.centimes) * quantity %}
+    {% set total_euros = (total_centimes // 100) %}
+    {% set remaining_centimes = (total_centimes % 100) %}
+    {%if remaining_centimes == 0 %}
+        {% set remaining_centimes = '' %}
+    {% endif %}
+    {{ total_euros }}€{{ remaining_centimes }}
+{% endmacro %}
