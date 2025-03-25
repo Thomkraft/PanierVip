@@ -14,6 +14,9 @@
     {% set highest_price = 0 %}
     {% set lowest_price = null %}
 
+    {% set Highest_name = "" %}
+    {% set lowest_name = "" %}
+
     {% set category_expenses = {} %}
 
     {% for shopping_list in shopping_lists %}
@@ -65,7 +68,7 @@
             <div class="card-header">Average Cost</div>
             <div class="card-body">
                 <h5 class="card-title">Average Cost per Item</h5>
-                <p class="card-text"><strong>{{ average_price_per_item }}€</strong></p>
+                <p class="card-text"><strong>{{ average_price_per_item/100 }}€{{ average_price_per_item%100 }}</strong></p>
             </div>
         </div>
 
@@ -73,10 +76,10 @@
             <div class="card-header">Highest and lowest product</div>
             <div class="card-body">
                 <h5 class="card-title">Highest Product</h5>
-                <p class="card-text"><strong>{% if shopping_lists is not empty %}{{ highest_item.name }} {% else %} No product {% endif %}: {{ highest_price // 100 }}€{{ highest_price % 100 }}</strong></p>
+                <p class="card-text"><strong>{% if highest_item is not null%}{{ highest_item.name }} {% else %} No product {% endif %} : {{ highest_price // 100 }}€{{ highest_price % 100 }}</strong></p>
 
                 <h5 class="card-title">Lowest Product</h5>
-                <p class="card-text"><strong>{% if shopping_lists is not empty %}{{ lowest_item.name }}{% else %} No product {% endif %} : {{ lowest_price // 100 }}€{{ lowest_price % 100 }}</strong></p>
+                <p class="card-text"><strong>{% if lowest_item is not null %}{{ lowest_item.name }}{% else %} No product {% endif %} : {{ lowest_price // 100 }}€{{ lowest_price % 100 }}</strong></p>
             </div>
         </div>
 

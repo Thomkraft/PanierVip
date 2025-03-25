@@ -15,7 +15,9 @@
     </head>
     <body>
         <header class="d-flex w-100 justify-content-between bg-body align-items-center shadow-lg p-1">
-            <h1 class="fs-2 m-2">PanierVIP</h1>
+            <h1 class="fs-2 m-2">
+                <a href="{{ path('app_shopping_list_index') }}" class="text-decoration-none text-dark">PanierVIP</a>
+            </h1>
 
             <a href="{{ path('app_logout') }}" >
                 <svg class="m-2" fill="#5a5a5a" width="30px" height="30px" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
