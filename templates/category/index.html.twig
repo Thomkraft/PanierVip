@@ -5,7 +5,7 @@
 {% block body %}
     <h1>Category index</h1>
 
-    <table class="table">
+    <table class="table table-striped table-hover">
         <thead>
         <tr>
             <th>Id</th>
@@ -37,6 +37,6 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_admin_category_new') }}">Create new</a>
-    <a href="{{ path('app_admin') }}">back</a>
+    <a href="{{ path('app_admin_category_new') }}" class="btn btn-primary">Create new</a>
+    <a href="{{ path('app_admin') }}" class="btn btn-secondary">back</a>
 {% endblock %}
