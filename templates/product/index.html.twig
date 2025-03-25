@@ -5,8 +5,8 @@
 {% block body %}
     <h1>Product Manager</h1>
 
-    <table class="table">
-        <thead>
+    <table class="table table-striped table-hover">
+    <thead>
             <tr>
                 <th>Id</th>
                 <th>Name</th>
@@ -41,6 +41,6 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_admin_product_new') }}">Create new</a>
-    <a href="{{ path('app_admin') }}">back</a>
+    <a href="{{ path('app_admin_product_new') }}" class="btn btn-primary">Create new</a>
+    <a href="{{ path('app_admin') }}" class="btn btn-secondary">back</a>
 {% endblock %}
