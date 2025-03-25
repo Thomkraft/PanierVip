@@ -53,7 +53,7 @@
         {% endif %}
     {% endfor %}
 
-    {% set average_price_per_item = total_items > 0 ? (total_cost // total_items) / 100 : 0 %}
+    {% set average_price_per_item = total_items > 0 ? (total_cost // total_items) : 0 %}
 
     <div class="d-flex flex-row p-3 gap-5 align-items-top">
         <div class="card d-flex flex-column justify-content-between p-3 h-100 bg-success-subtle border border-black border-opacity-10 shadow position-relative" style="max-width: 18rem;">
@@ -68,7 +68,7 @@
             <div class="card-header">Average Cost</div>
             <div class="card-body">
                 <h5 class="card-title">Average Cost per Item</h5>
-                <p class="card-text"><strong>{{ average_price_per_item/100 }}€{{ average_price_per_item%100 }}</strong></p>
+                <p class="card-text"><strong>{{ average_price_per_item//100 }}€{{ average_price_per_item%100 }}</strong></p>
             </div>
         </div>
 
