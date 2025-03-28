@@ -3,10 +3,14 @@
 {% block title %}Admin{% endblock %}
 
 {% block body %}
-    <h1>Admin Page</h1>
-    <ul>
-        <li><a href="{{ path('app_admin_product_add') }}">Products Manager</a></li>
-        <li><a href="{{ path('app_admin_product_category') }}">Categories Manager</a></li>
+    <div class="d-flex align-items-center mb-4">
+        <h1 class="mb-0">Admin Page</h1>
+    </div>
+
+    <ul class="list-group mb-4">
+        <li class="list-group-item"><a href="{{ path('app_admin_product_add') }}">Products Manager</a></li>
+        <li class="list-group-item"><a href="{{ path('app_admin_product_category') }}">Categories Manager</a></li>
     </ul>
-    <a href="{{ path('app_list') }}">back</a>
+
+    <a href="{{ path('app_list') }}" class="btn btn-secondary">back</a>
 {% endblock %}

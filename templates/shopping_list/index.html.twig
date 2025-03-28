@@ -10,109 +10,115 @@
         <div id="sl-stats-container">{{ include('shopping_list/chart.html.twig') }}</div>
     </div>
 
-
-
     <div id="shopping-list-table" class="container row mx-auto my-3">
-
         {% for shopping_list in shopping_lists %}
-
             {% if shopping_list.utilisateur.id == user.id %}
                 <div class="col-lg-4 col-md-6 col-12 p-3">
-                    <div class="shopping-list-container">
-
-                        <img
-                                src="{{ asset('images/thumbtack-' ~ random(1, 3) ~ '.png') }}" alt="Thumbtack Image"
-                                class="sl-thumbtack"
-                        >
-
-                        <div class="lh-sm">
-                            <p><strong>Name :</strong> {{ shopping_list.name }}</p>
-                            <p><strong>Number of products:</strong> {{ shopping_list.nbProducts }}</p>
-                            <p><strong>Products:</strong></p>
-
-                            <ul class="lh-base">
+                    <div class="card shopping-list-container shadow-sm">
+                        <img src="{{ asset('images/thumbtack-' ~ random(1, 3) ~ '.png') }}" alt="Thumbtack Image" class="sl-thumbtack">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ shopping_list.name }}</h5>
+                            <p class="card-text"><strong>Number of products:</strong> {{ shopping_list.nbProducts }}</p>
+                            <p class="card-text"><strong>Products:</strong></p>
+                            <ul class="list-group list-group-flush">
                                 {% for listed_product in shopping_list.listedProducts %}
-
                                     {% if loop.index0 <= 2 %}
-
-                                        <li style="{% if listed_product.bought %}text-decoration: line-through;{% endif %}"
-                                        ><strong>{{ listed_product.product.name }}</strong> x
-                                             {{ listed_product.quantity }} :
-                                            {{ listed_product.product.weight * listed_product.quantity}}g ,
+                                        <li class="list-group-item" style="{% if listed_product.bought %}text-decoration: line-through;{% endif %}">
+                                            <strong>{{ listed_product.product.name }}</strong> x {{ listed_product.quantity }} :
+                                            {{ listed_product.product.weight * listed_product.quantity }}g ,
                                             {{ _self.total_price(listed_product.product, listed_product.quantity) }}
                                         </li>
-
                                     {% else %}
-
                                         {% if loop.last %}
-                                            <li> ... </li>
+                                            <li class="list-group-item"> ... </li>
                                         {% endif %}
                                     {% endif %}
-
                                 {% endfor %}
                             </ul>
                         </div>
-
-                        <div class="d-flex justify-content-end gap-2 align-items-center">
-                            <a href="{{ path('app_shopping_list_show', {'id': shopping_list.id}) }}">Show</a>
-                            <a href="{{ path('app_shopping_list_edit', {'id': shopping_list.id}) }}" class="">Edit</a>
-
-                            {{ include('shopping_list/_delete_form.html.twig', { 'shopping_list': shopping_list }) }}
+                        <div class="card-footer d-flex justify-content-end gap-2">
+                            <a href="{{ path('app_shopping_list_show', {'id': shopping_list.id}) }}" class="btn btn-primary btn-sm">Show</a>
+                            <a href="{{ path('app_shopping_list_edit', {'id': shopping_list.id}) }}" class="btn btn-secondary btn-sm">Edit</a>
+                            {{ include('shopping_list/_delete_form.html.twig', { 'shopping_list': shopping_list, 'button_class': 'btn btn-danger btn-sm' }) }}
                         </div>
-
                     </div>
                 </div>
             {% endif %}
-
         {% else %}
-
             <p>No records found</p>
-
         {% endfor %}
     </div>
 
-    <a id="plus-button" class="position-fixed bg-warning rounded-circle p-1" href="{{ path('app_shopping_list_new') }}">
-        <svg width="50px" height="50px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M6 12H18M12 6V18" stroke="#f7f7f9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            New list
-        </svg>
-    </a>
+    <div id="new-list-container" class="">
+        <div class="input-group">
+            <button id="plus-button" class="" type="button" style="width: 50px; height: 50px;">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 5v14M5 12h14" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+            <input type="text" id="new-list-name" class="d-none" placeholder=" my new list name">
+            <button id="create-list-button" class="d-none" type="button" disabled>Create</button>
+        </div>
+    </div>
 
-
-    {% if is_granted('ROLE_ADMIN') %}
-        <a id="admin-button" class="position-fixed bg-danger rounded-circle border-1" href="{{ path('app_admin') }}">
-            <svg fill="#000000" width="35px" height="35px" viewBox="-1 0 19 19" xmlns="http://www.w3.org/2000/svg" class="cf-icon-svg"><path d="M16.014 8.86v1.44a.587.587 0 0 1-.468.556l-1.182.204a.463.463 0 0 1-.114.006 5.902 5.902 0 0 1-.634 1.528.455.455 0 0 1 .078.084l.691.98a.586.586 0 0 1-.062.725l-1.02 1.02a.586.586 0 0 1-.724.061l-.98-.69a.444.444 0 0 1-.085-.078 5.908 5.908 0 0 1-1.544.637.502.502 0 0 1 0 .175l-.182 1.053a.667.667 0 0 1-.633.532h-1.31a.667.667 0 0 1-.633-.532l-.182-1.053a.495.495 0 0 1 0-.175 5.908 5.908 0 0 1-1.544-.637.444.444 0 0 1-.085.077l-.98.691a.586.586 0 0 1-.725-.062l-1.02-1.02a.586.586 0 0 1-.061-.723l.691-.98a.454.454 0 0 1 .077-.085 5.901 5.901 0 0 1-.633-1.528.466.466 0 0 1-.114-.006l-1.182-.204a.586.586 0 0 1-.468-.556V8.86a.586.586 0 0 1 .468-.556L2.636 8.1a.437.437 0 0 1 .114-.005 5.912 5.912 0 0 1 .633-1.528.466.466 0 0 1-.077-.085l-.691-.98a.587.587 0 0 1 .061-.724l1.02-1.02a.587.587 0 0 1 .725-.062l.98.691a.444.444 0 0 1 .085.078 5.903 5.903 0 0 1 1.528-.634.433.433 0 0 1 .005-.114l.204-1.182a.586.586 0 0 1 .556-.468h1.442a.586.586 0 0 1 .556.468l.204 1.182a.448.448 0 0 1 .005.114 5.908 5.908 0 0 1 1.528.634.444.444 0 0 1 .085-.078l.98-.691a.586.586 0 0 1 .724.062l1.02 1.02a.586.586 0 0 1 .062.724l-.691.98a.467.467 0 0 1-.078.085 5.902 5.902 0 0 1 .634 1.528.434.434 0 0 1 .114.005l1.182.204a.587.587 0 0 1 .468.556zm-4.955.72a2.559 2.559 0 1 0-2.56 2.56 2.559 2.559 0 0 0 2.56-2.56z"/>
-                Admin
-            </svg>
-        </a>
-    {% endif %}
 
     <script>
-        const statsBtn = document.getElementById("sl-stats-btn");
-        const statsContainer = document.getElementById("sl-stats-container");
-        let statsHidden = false;
+        document.addEventListener('DOMContentLoaded', function() {
+            const plusButton = document.getElementById('plus-button');
+            const inputField = document.getElementById('new-list-name');
+            const createButton = document.getElementById('create-list-button');
+            const statsBtn = document.getElementById("sl-stats-btn");
+            const statsContainer = document.getElementById("sl-stats-container");
+            let statsHidden = false;
 
-        statsBtn.addEventListener("click", () => {
-            if (!statsHidden) {
-                statsContainer.classList.add("d-none");
-                statsHidden = true;
-            }
-            else {
-                statsContainer.classList.remove("d-none");
-                statsHidden = false;
-            }
+            statsBtn.addEventListener("click", () => {
+                if (!statsHidden) {
+                    statsContainer.classList.add("d-none");
+                    statsHidden = true;
+                }
+                else {
+                    statsContainer.classList.remove("d-none");
+                    statsHidden = false;
+                }
+            });
+
+            plusButton.addEventListener('click', function(e) {
+                e.preventDefault();
+                if (inputField.classList.contains('d-none')) {
+                    inputField.classList.remove('d-none');
+                    inputField.style.width = '150px';
+                    createButton.classList.remove('d-none');
+                    plusButton.style.transform = 'rotate(45deg)';
+                } else {
+                    inputField.classList.add('d-none');
+                    inputField.style.width = '0';
+                    createButton.classList.add('d-none');
+                    plusButton.style.transform = 'rotate(0deg)';
+                }
+            });
+
+            inputField.addEventListener('input', function() {
+                createButton.disabled = !this.value.trim();
+            });
+
+            createButton.addEventListener('click', function() {
+                if (inputField.value.trim()) {
+                    window.location.href = "{{ path('app_shopping_list_new') }}?name=" + encodeURIComponent(inputField.value);
+                }
+            });
         });
-
     </script>
 
 {% endblock %}
 
-{% macro total_price(product, quantity) %}
-    {% set total_centimes = (product.euros * 100 + product.centimes) * quantity %}
-    {% set total_euros = (total_centimes // 100) %}
-    {% set remaining_centimes = (total_centimes % 100) %}
-    {%if remaining_centimes == 0 %}
-    {% set remaining_centimes = '' %}
-    {% endif %}
-    {{ total_euros }}€{{ remaining_centimes }}
-{% endmacro %}
+{% block macros %}
+    {% macro total_price(product, quantity) %}
+        {% set total_centimes = (product.euros * 100 + product.centimes) * quantity %}
+        {% set total_euros = (total_centimes // 100) %}
+        {% set remaining_centimes = (total_centimes % 100) %}
+        {%if remaining_centimes == 0 %}
+            {% set remaining_centimes = '' %}
+        {% endif %}
+        {{ total_euros }}€{{ remaining_centimes }}
+    {% endmacro %}
+{% endblock %}

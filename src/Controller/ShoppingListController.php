@@ -33,12 +33,14 @@ final class ShoppingListController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager, #[CurrentUser] \App\Entity\User $user): Response
     {
         $shoppingList = new ShoppingList();
-        $form = $this->createForm(ShoppingListType::class, $shoppingList);
+        $listName = $request->query->get('name', '');
+        if ($listName) {
+            $shoppingList->setName($listName);
+        }
+        $form = $this->createForm(ShoppingListType::class, $shoppingList, ['name' => $listName]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // Update nbProducts before register
-            //$shoppingList->setNbProducts(count($shoppingList->getListedProducts()));
             $shoppingList->calculateNbProducts();
             $shoppingList->setUtilisateur($user);
 

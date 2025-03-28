@@ -26,7 +26,8 @@ class ShoppingListType extends AbstractType
                 'attr' => [
                     'class' => 'form-control',
                     'placeholder' => 'Name of your list',
-                ]
+                ],
+                'data' => $options['data']->getName() ?: $options['name'], // Set the default value
             ])
             ->add('listedProducts', CollectionType::class, [
                 'label' => false,
@@ -46,10 +47,11 @@ class ShoppingListType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => ShoppingList::class,
+            'name' => null,
         ]);
     }
 
-    public function validateUniqueProducts($listedProducts,ExecutionContextInterface $context): void
+    public function validateUniqueProducts($listedProducts, ExecutionContextInterface $context): void
     {
         $productNames = [];
 
@@ -58,7 +60,7 @@ class ShoppingListType extends AbstractType
 
             if (in_array($productName, $productNames)) {
                 $context->buildViolation("Each product must be unique in the list.")
-                    ->atPath("listedProducts.product") // Associe l'erreur au champ "product"
+                    ->atPath("listedProducts.product") // Associate the error with the "product" field
                     ->addViolation();
             }
 

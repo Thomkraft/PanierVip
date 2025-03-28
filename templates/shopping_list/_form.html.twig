@@ -26,9 +26,6 @@
                 </div>
 
 
-
-                {#        {% else %} #}
-                {#            <p>No added products</p> #}
             {% endfor %}
 
             <div class="text-danger">
@@ -39,7 +36,7 @@
     <div class="">
         <button class="btn btn-primary my-3 w-50" id="add-listed-product" type="button" >Add product</button>
         <button class="btn btn-success" type="submit">{{ button_label|default('Save') }}</button>
-        <a class="link-danger" href="{{ path('app_shopping_list_index') }}">Cancel</a>
+        <a class=" btn btn-secondary me-2" href="{{ path('app_shopping_list_index') }}">Cancel</a>
     </div>
 </div>
 
