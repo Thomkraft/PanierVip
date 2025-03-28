@@ -34,10 +34,18 @@
     color: #8B0000; /* Dark red color */
 }
 
+
+.listed-product-form {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 10px; /* Add margin to separate each product */
+}
+
 .shopping-list-container {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-start; /* Ensure items start from the top */
     padding: 18px;
     min-height: 400px;
     background-color: #ddf5eb;
@@ -45,6 +53,7 @@
     box-shadow: var(--bs-box-shadow);
     position: relative;
 }
+
 #new-list-container {
     transition: all 0.3s ease;
     position: fixed;
