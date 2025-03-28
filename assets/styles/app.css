@@ -2,10 +2,21 @@
     transform: scaleY(1);
 }
 
+#stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(max-content, 1fr));
+    gap: 16px;
+}
+
+#shopping-lists-chart {
+    max-width: 35vw;
+    max-height: 35vw;
+}
+
 .sl-thumbtack {
     width: 50px;
     position: absolute;
-    top: -10%;
+    top: -7%;
     left: 43%;
 }
 
@@ -16,7 +27,7 @@
 
 .shopping-list {
     max-width: 600px;
-    margin: 0 auto;
+    margin: 20px auto;
 }
 
 .text-dark-red {
@@ -45,14 +56,14 @@
     border-radius: 5px;
 }
 
+.quantity-input input {
+    width: 80px !important;
+    text-align: left;
+}
+
 #admin-button {
     right: 68px;
     bottom: 12px;
-}
-
-#shopping-lists-chart {
-    max-width: 35vw;
-    max-height: 35vw;
 }
 
 #plus-button {
