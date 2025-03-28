@@ -14,7 +14,7 @@
             {% for listedProduct in form.listedProducts %}
                 <div class="d-flex flex-row align-items-center listed-product-form mb-2 gap-3">
                     {{ form_row(listedProduct.product) }}
-                    {{ form_row(listedProduct.quantity) }}
+                    <div class="quantity-input">{{ form_row(listedProduct.quantity) }}</div>
 
                     {% if (app.request.pathinfo == '/shopping/list/new') != 1 %}
                         {{ form_row(listedProduct.bought) }}
@@ -62,7 +62,7 @@
             let prototypeTemplate = `
                 <div class="d-flex flex-row align-items-center listed-product-form mb-2 gap-3">
                     {{ prototype_product|e('js') }}
-                    {{ prototype_quantity|e('js') }}
+                    <div class="quantity-input">{{ prototype_quantity|e('js') }}</div>
 
                     {% if (app.request.pathinfo != '/shopping-list/new') != 1 %}
                         {{ prototype_bought|e('js') }}

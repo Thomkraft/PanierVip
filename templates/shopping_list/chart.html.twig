@@ -45,47 +45,43 @@
 
 {% set average_price_per_item = total_items > 0 ? (total_cost // total_items) / 100 : 0 %}
 
-<div class="container">
-    <div class="row g-3 w-75 mx-auto">
-        <div class="col-md-6 col-12">
+<div>
+    <div class="d-flex flex-wrap justify-content-around align-items-center w-75 mx-auto">
             <div class="p-3 border rounded shadow-sm">
                 <h2 class="fs-6 fw-bold">Total cost</h2>
                 <h1>{{ (total_price_all_lists // 100) }}.{{ total_price_all_lists % 100 }}€</h1>
             </div>
-        </div>
 
-        <div class="col-md-6 col-12">
             <div class="p-3 border rounded shadow-sm">
                 <h2 class="fs-6 fw-bold">Average cost</h2>
                 <h1>{{ average_price_per_item }}€</h1>
             </div>
-        </div>
 
-        <div class="col-md-6 col-12">
-            <div class="p-3 border rounded shadow-sm">
-                <h2 class="fs-6 fw-bold">📉 Lowest product</h2>
-                <h1>
-                    {% if shopping_lists is not empty %}
-                        {{ lowest_item.name }}: {{ lowest_price // 100 }}.{{ lowest_price % 100 }}€
-                    {% else %}
-                        No product
-                    {% endif %}
-                </h1>
+            <div class="d-flex flex-column p-3 gap-3 border rounded shadow-sm">
+                <div>
+                    <h2 class="fs-6 fw-bold">📉 Lowest product</h2>
+                    <h1>
+                        {% if shopping_lists is not empty %}
+                            {{ lowest_item.name }}: {{ lowest_price // 100 }}.{{ lowest_price % 100 }}€
+                        {% else %}
+                            No product
+                        {% endif %}
+                    </h1>
+                </div>
 
-                <h2 class="fs-6 fw-bold">📈 Highest product</h2>
-                <h1>
-                    {% if shopping_lists is not empty %}
-                        {{ highest_item.name }}: {{ highest_price // 100 }}.{{ highest_price % 100 }}€
-                    {% else %}
-                        No product
-                    {% endif %}
-                </h1>
+                <div>
+                    <h2 class="fs-6 fw-bold">📈 Highest product</h2>
+                    <h1>
+                        {% if shopping_lists is not empty %}
+                            {{ highest_item.name }}: {{ highest_price // 100 }}.{{ highest_price % 100 }}€
+                        {% else %}
+                            No product
+                        {% endif %}
+                    </h1>
+                </div>
             </div>
-        </div>
 
-        <div class="col-md-6 col-12">
             <canvas id="shopping-lists-chart"></canvas>
-        </div>
     </div>
 </div>
 
