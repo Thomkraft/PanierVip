@@ -45,6 +45,16 @@
     border-radius: 5px;
 }
 
+#admin-button {
+    right: 68px;
+    bottom: 12px;
+}
+
+#shopping-lists-chart {
+    max-width: 35vw;
+    max-height: 35vw;
+}
+
 #plus-button {
     transition: transform 0.3s ease;
     border-radius: 50%;
