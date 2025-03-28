@@ -5,97 +5,9 @@
 {% block body %}
     <h1>Your shopping lists</h1>
 
-    {% set total_price_all_lists = 0 %}
-    {% set total_items = 0 %}
-    {% set total_cost = 0 %}
-
-    {% set highest_item = null %}
-    {% set lowest_item = null %}
-    {% set highest_price = 0 %}
-    {% set lowest_price = null %}
-
-    {% set Highest_name = "" %}
-    {% set lowest_name = "" %}
-
-    {% set category_expenses = {} %}
-
-    {% for shopping_list in shopping_lists %}
-        {% if shopping_list.utilisateur.id == user.id %}
-            {% for listed_product in shopping_list.listedProducts %}
-                {% set item_price = (listed_product.product.euros * 100 + listed_product.product.centimes) * listed_product.quantity %}
-                {% set total_price_all_lists = total_price_all_lists + item_price %}
-                {% set total_items = total_items + listed_product.quantity %}
-                {% set total_cost = total_cost + item_price %}
-
-                {% set item_unit_price = (listed_product.product.euros * 100 + listed_product.product.centimes) %}
-
-                {% if highest_item is null or item_unit_price > highest_price %}
-                    {% set highest_item = listed_product.product %}
-                    {% set highest_price = item_unit_price %}
-                {% endif %}
-
-                {% if lowest_item is null or item_unit_price < lowest_price %}
-                    {% set lowest_item = listed_product.product %}
-                    {% set lowest_price = item_unit_price %}
-                {% endif %}
-
-                {% set category_name = listed_product.product.category.name %}
-                {% set item_total_price = (listed_product.product.euros * 100 + listed_product.product.centimes) * listed_product.quantity %}
-
-                {% if category_expenses[category_name] is not defined %}
-                    {% set category_expenses = category_expenses|merge({ (category_name): item_total_price }) %}
-                {% else %}
-                    {% set category_expenses = category_expenses|merge({ (category_name): category_expenses[category_name] + item_total_price }) %}
-                {% endif %}
-            {% endfor %}
-        {% endif %}
-    {% endfor %}
-
-    {% set average_price_per_item = total_items > 0 ? (total_cost // total_items) : 0 %}
-
-    <div class="d-flex flex-row p-3 gap-5 align-items-top">
-        <div class="card d-flex flex-column justify-content-between p-3 h-100 bg-success-subtle border border-black border-opacity-10 shadow position-relative" style="max-width: 18rem;">
-            <div class="card-header">Total Cost</div>
-            <div class="card-body">
-                <h5 class="card-title">Total Price of all Lists</h5>
-                <p class="card-text"><strong>{{ (total_price_all_lists // 100) }}€{{ total_price_all_lists % 100 }}</strong></p>
-            </div>
-        </div>
-
-        <div class="card d-flex flex-column justify-content-between p-3 h-100 bg-success-subtle border border-black border-opacity-10 shadow position-relative" style="max-width: 18rem;">
-            <div class="card-header">Average Cost</div>
-            <div class="card-body">
-                <h5 class="card-title">Average Cost per Item</h5>
-                <p class="card-text"><strong>{{ average_price_per_item//100 }}€{{ average_price_per_item%100 }}</strong></p>
-            </div>
-        </div>
-
-        <div class="card d-flex flex-column justify-content-between p-3 h-100 bg-success-subtle border border-black border-opacity-10 shadow position-relative" style="max-width: 18rem;">
-            <div class="card-header">Highest and lowest product</div>
-            <div class="card-body">
-                <h5 class="card-title">Highest Product</h5>
-                <p class="card-text"><strong>{% if highest_item is not null%}{{ highest_item.name }} {% else %} No product {% endif %} : {{ highest_price // 100 }}€{{ highest_price % 100 }}</strong></p>
-
-                <h5 class="card-title">Lowest Product</h5>
-                <p class="card-text"><strong>{% if lowest_item is not null %}{{ lowest_item.name }}{% else %} No product {% endif %} : {{ lowest_price // 100 }}€{{ lowest_price % 100 }}</strong></p>
-            </div>
-        </div>
-
-        <div class="card d-flex flex-column justify-content-between p-3 h-100 bg-success-subtle border border-black border-opacity-10 shadow position-relative" style="max-width: 18rem;">
-            <div class="card-header">Distribution of expenses</div>
-            <div class="card-body">
-                <h5 class="card-title">Expenses by Category</h5>
-                {% if category_expenses is not empty %}
-                    <ul class="lh-base">
-                        {% for category, amount in category_expenses %}
-                            <li><strong>{{ category }}</strong> : {{ (amount // 100) }}€{{ amount % 100 }}</li>
-                        {% endfor %}
-                    </ul>
-                {% else %}
-                    <p class="card-text">No purchases recorded</p>
-                {% endif %}
-            </div>
-        </div>
+    <div>
+        <input id="sl-stats-btn" type="button"  />
+        <div id="sl-stats-container">{{ include('shopping_list/chart.html.twig') }}</div>
     </div>
 
     <div id="shopping-list-table" class="container row mx-auto my-3">
@@ -155,6 +67,20 @@
             const plusButton = document.getElementById('plus-button');
             const inputField = document.getElementById('new-list-name');
             const createButton = document.getElementById('create-list-button');
+            const statsBtn = document.getElementById("sl-stats-btn");
+            const statsContainer = document.getElementById("sl-stats-container");
+            let statsHidden = false;
+
+            statsBtn.addEventListener("click", () => {
+                if (!statsHidden) {
+                    statsContainer.classList.add("d-none");
+                    statsHidden = true;
+                }
+                else {
+                    statsContainer.classList.remove("d-none");
+                    statsHidden = false;
+                }
+            });
 
             plusButton.addEventListener('click', function(e) {
                 e.preventDefault();
@@ -182,6 +108,7 @@
             });
         });
     </script>
+
 {% endblock %}
 
 {% block macros %}
