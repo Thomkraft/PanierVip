@@ -10,7 +10,6 @@ class CategoryFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
-        // Tableau de données pour les catégories
         $categoriesData = [
             ['name' => 'Fruits'],
             ['name' => 'Produits laitiers'],
