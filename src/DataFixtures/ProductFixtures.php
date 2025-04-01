@@ -24,7 +24,7 @@ class ProductFixtures extends Fixture
             ['name' => 'Chocolat Noir', 'category_id' => 8, 'weight' => 100, 'euros' => 1, 'centimes' => 70],
         ];
 
-        foreach ($productsData as $data) {
+        foreach ($productsData as $index=>$data) {
             // Get or create new category
             $category = $this->getReference('category_' . $data['category_id'], Category::class);
             if (!$category) {
@@ -40,6 +40,9 @@ class ProductFixtures extends Fixture
             $product->setEuros($data['euros']);
             $product->setCentimes($data['centimes']);
             $manager->persist($product);
+
+            // Add reference for each user
+            $this->addReference('product_' . ($index + 1), $product);
         }
 
         $manager->flush();
