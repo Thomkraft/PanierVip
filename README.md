@@ -1,5 +1,6 @@
 ```
 Base de donnée (MySQL)/
+ - nom : paniervip
  - .env = DATABASE_URL="mysql://root@127.0.0.1:3306/paniervip?serverVersion=9.1.0&charset=utf8mb4"
 
 Liste des cmds à utiliser pour lancer le projet/
