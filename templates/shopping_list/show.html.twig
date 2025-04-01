@@ -3,16 +3,11 @@
 {% block title %}ShoppingList{% endblock %}
 
 {% block body %}
-    <h1>ShoppingList</h1>
+    <h1>{{ shopping_list.name }}</h1>
 
     <div class="card text-bg-info mb-3" style="max-width: 18rem;">
         <div class="card-body">
-            <h5 class="card-title">Infos Générale</h5>
-            <ul>
-                <li>Nom de la liste : {{ shopping_list.id }}</li>
-
-                <li>Nombres de produits : {{ shopping_list.nbProducts }}</li>
-            </ul>
+            Nombres de produits : {{ shopping_list.nbProducts }}</li>
         </div>
     </div>
 
@@ -22,12 +17,13 @@
             <div style="{% if listed_product.bought %}text-decoration: line-through;{% endif %}">
                 <div class="product-info">
                     <h5 class="card-title">{{ listed_product.product.name }}</h5>
-                    <span class = "item"> {{ listed_product.quantity }} </span>
-                    <span class = "item"> {{ listed_product.product.weight * listed_product.quantity}}</span>
-                    <span class = "item"> {{ _self.total_price(listed_product.product, listed_product.quantity) }} </span>
+                    <span class = "item"> x{{ listed_product.quantity }} </span>
+                    <span class = "item"> {{ listed_product.product.weight * listed_product.quantity}} grammes</span>
+                    <span class = "item"> {{ _self.total_price(listed_product.product, listed_product.quantity) }}€ </span>
                 </div>
             </div>
         </div>
+        <hr>
 
 
     {% endfor %}
@@ -49,7 +45,7 @@
     #optionPanel {
         position: fixed;
         bottom: 2vh;
-        right: 2vh;
+        right: 40vh;
     }
 
     #optionPanel a:hover {
@@ -67,6 +63,11 @@
     body {
         margin-left: 33vh;
         margin-right: 33vh;
+    }
+
+    .product-info h5 {
+        min-width: 15vw;
+        max-width: 15vw;
     }
 
     .list-legend {
