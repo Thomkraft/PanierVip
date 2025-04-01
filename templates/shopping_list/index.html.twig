@@ -5,97 +5,20 @@
 {% block body %}
     <h1>Your shopping lists</h1>
 
-    {% set total_price_all_lists = 0 %}
-    {% set total_items = 0 %}
-    {% set total_cost = 0 %}
+    <div class="d-flex">
+        <a id="sl-stats-btn" class="position-absolute bg-primary p-1 rounded-3 bg-opacity-50">
+            <svg id="eye-svg" class="d-none" width="30px" height="30px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M6.30147 15.5771C4.77832 14.2684 3.6904 12.7726 3.18002 12C3.6904 11.2274 4.77832 9.73158 6.30147 8.42294C7.87402 7.07185 9.81574 6 12 6C14.1843 6 16.1261 7.07185 17.6986 8.42294C19.2218 9.73158 20.3097 11.2274 20.8201 12C20.3097 12.7726 19.2218 14.2684 17.6986 15.5771C16.1261 16.9282 14.1843 18 12 18C9.81574 18 7.87402 16.9282 6.30147 15.5771ZM12 4C9.14754 4 6.75717 5.39462 4.99812 6.90595C3.23268 8.42276 2.00757 10.1376 1.46387 10.9698C1.05306 11.5985 1.05306 12.4015 1.46387 13.0302C2.00757 13.8624 3.23268 15.5772 4.99812 17.0941C6.75717 18.6054 9.14754 20 12 20C14.8525 20 17.2429 18.6054 19.002 17.0941C20.7674 15.5772 21.9925 13.8624 22.5362 13.0302C22.947 12.4015 22.947 11.5985 22.5362 10.9698C21.9925 10.1376 20.7674 8.42276 19.002 6.90595C17.2429 5.39462 14.8525 4 12 4ZM10 12C10 10.8954 10.8955 10 12 10C13.1046 10 14 10.8954 14 12C14 13.1046 13.1046 14 12 14C10.8955 14 10 13.1046 10 12ZM12 8C9.7909 8 8.00004 9.79086 8.00004 12C8.00004 14.2091 9.7909 16 12 16C14.2092 16 16 14.2091 16 12C16 9.79086 14.2092 8 12 8Z" fill="#fff"/>
+                Show stats
+            </svg>
 
-    {% set highest_item = null %}
-    {% set lowest_item = null %}
-    {% set highest_price = 0 %}
-    {% set lowest_price = null %}
+            <svg id="eye-off-svg" width="30px" height="30px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M19.7071 5.70711C20.0976 5.31658 20.0976 4.68342 19.7071 4.29289C19.3166 3.90237 18.6834 3.90237 18.2929 4.29289L14.032 8.55382C13.4365 8.20193 12.7418 8 12 8C9.79086 8 8 9.79086 8 12C8 12.7418 8.20193 13.4365 8.55382 14.032L4.29289 18.2929C3.90237 18.6834 3.90237 19.3166 4.29289 19.7071C4.68342 20.0976 5.31658 20.0976 5.70711 19.7071L9.96803 15.4462C10.5635 15.7981 11.2582 16 12 16C14.2091 16 16 14.2091 16 12C16 11.2582 15.7981 10.5635 15.4462 9.96803L19.7071 5.70711ZM12.518 10.0677C12.3528 10.0236 12.1792 10 12 10C10.8954 10 10 10.8954 10 12C10 12.1792 10.0236 12.3528 10.0677 12.518L12.518 10.0677ZM11.482 13.9323L13.9323 11.482C13.9764 11.6472 14 11.8208 14 12C14 13.1046 13.1046 14 12 14C11.8208 14 11.6472 13.9764 11.482 13.9323ZM15.7651 4.8207C14.6287 4.32049 13.3675 4 12 4C9.14754 4 6.75717 5.39462 4.99812 6.90595C3.23268 8.42276 2.00757 10.1376 1.46387 10.9698C1.05306 11.5985 1.05306 12.4015 1.46387 13.0302C1.92276 13.7326 2.86706 15.0637 4.21194 16.3739L5.62626 14.9596C4.4555 13.8229 3.61144 12.6531 3.18002 12C3.6904 11.2274 4.77832 9.73158 6.30147 8.42294C7.87402 7.07185 9.81574 6 12 6C12.7719 6 13.5135 6.13385 14.2193 6.36658L15.7651 4.8207ZM12 18C11.2282 18 10.4866 17.8661 9.78083 17.6334L8.23496 19.1793C9.37136 19.6795 10.6326 20 12 20C14.8525 20 17.2429 18.6054 19.002 17.0941C20.7674 15.5772 21.9925 13.8624 22.5362 13.0302C22.947 12.4015 22.947 11.5985 22.5362 10.9698C22.0773 10.2674 21.133 8.93627 19.7881 7.62611L18.3738 9.04043C19.5446 10.1771 20.3887 11.3469 20.8201 12C20.3097 12.7726 19.2218 14.2684 17.6986 15.5771C16.1261 16.9282 14.1843 18 12 18Z" fill="#fff"/>
+                Hide stats
+            </svg>
+        </a>
 
-    {% set Highest_name = "" %}
-    {% set lowest_name = "" %}
-
-    {% set category_expenses = {} %}
-
-    {% for shopping_list in shopping_lists %}
-        {% if shopping_list.utilisateur.id == user.id %}
-            {% for listed_product in shopping_list.listedProducts %}
-                {% set item_price = (listed_product.product.euros * 100 + listed_product.product.centimes) * listed_product.quantity %}
-                {% set total_price_all_lists = total_price_all_lists + item_price %}
-                {% set total_items = total_items + listed_product.quantity %}
-                {% set total_cost = total_cost + item_price %}
-
-                {% set item_unit_price = (listed_product.product.euros * 100 + listed_product.product.centimes) %}
-
-                {% if highest_item is null or item_unit_price > highest_price %}
-                    {% set highest_item = listed_product.product %}
-                    {% set highest_price = item_unit_price %}
-                {% endif %}
-
-                {% if lowest_item is null or item_unit_price < lowest_price %}
-                    {% set lowest_item = listed_product.product %}
-                    {% set lowest_price = item_unit_price %}
-                {% endif %}
-
-                {% set category_name = listed_product.product.category.name %}
-                {% set item_total_price = (listed_product.product.euros * 100 + listed_product.product.centimes) * listed_product.quantity %}
-
-                {% if category_expenses[category_name] is not defined %}
-                    {% set category_expenses = category_expenses|merge({ (category_name): item_total_price }) %}
-                {% else %}
-                    {% set category_expenses = category_expenses|merge({ (category_name): category_expenses[category_name] + item_total_price }) %}
-                {% endif %}
-            {% endfor %}
-        {% endif %}
-    {% endfor %}
-
-    {% set average_price_per_item = total_items > 0 ? (total_cost // total_items) : 0 %}
-
-    <div class="d-flex flex-column p-3 gap-5 align-items-top">
-        <div class="card d-flex flex-column justify-content-between p-3 h-100 bg-success-subtle border border-black border-opacity-10 shadow position-relative" style="max-width: 18rem;">
-            <div class="card-header">Total Cost</div>
-            <div class="card-body">
-                <h5 class="card-title">Total Price of all Lists</h5>
-                <p class="card-text"><strong>{{ (total_price_all_lists // 100) }}€{{ total_price_all_lists % 100 }}</strong></p>
-            </div>
-        </div>
-
-        <div class="card d-flex flex-column justify-content-between p-3 h-100 bg-success-subtle border border-black border-opacity-10 shadow position-relative" style="max-width: 18rem;">
-            <div class="card-header">Average Cost</div>
-            <div class="card-body">
-                <h5 class="card-title">Average Cost per Item</h5>
-                <p class="card-text"><strong>{{ average_price_per_item//100 }}€{{ average_price_per_item%100 }}</strong></p>
-            </div>
-        </div>
-
-        <div class="card d-flex flex-column justify-content-between p-3 h-100 bg-success-subtle border border-black border-opacity-10 shadow position-relative" style="max-width: 18rem;">
-            <div class="card-header">Highest and lowest product</div>
-            <div class="card-body">
-                <h5 class="card-title">Highest Product</h5>
-                <p class="card-text"><strong>{% if highest_item is not null%}{{ highest_item.name }} {% else %} No product {% endif %} : {{ highest_price // 100 }}€{{ highest_price % 100 }}</strong></p>
-
-                <h5 class="card-title">Lowest Product</h5>
-                <p class="card-text"><strong>{% if lowest_item is not null %}{{ lowest_item.name }}{% else %} No product {% endif %} : {{ lowest_price // 100 }}€{{ lowest_price % 100 }}</strong></p>
-            </div>
-        </div>
-
-        <div class="card d-flex flex-column justify-content-between p-3 h-100 bg-success-subtle border border-black border-opacity-10 shadow position-relative" style="max-width: 18rem;">
-            <div class="card-header">Distribution of expenses</div>
-            <div class="card-body">
-                <h5 class="card-title">Expenses by Category</h5>
-                {% if category_expenses is not empty %}
-                    <ul class="lh-base">
-                        {% for category, amount in category_expenses %}
-                            <li><strong>{{ category }}</strong> : {{ (amount // 100) }}€{{ amount % 100 }}</li>
-                        {% endfor %}
-                    </ul>
-                {% else %}
-                    <p class="card-text">No purchases recorded</p>
-                {% endif %}
-            </div>
-        </div>
+        <div id="sl-stats-container" class="w-100">{{ include('shopping_list/chart.html.twig') }}</div>
     </div>
 
     <div id="shopping-list-table" class="container row mx-auto my-3">
@@ -156,6 +79,27 @@
             const inputField = document.getElementById('new-list-name');
             const createButton = document.getElementById('create-list-button');
 
+            const statsBtn = document.getElementById("sl-stats-btn");
+            const statsContainer = document.getElementById("sl-stats-container");
+            const eyeSvg = document.getElementById("eye-svg");
+            const eyeOffSvg = document.getElementById("eye-off-svg");
+            let statsHidden = false;
+
+            statsBtn.addEventListener("click", () => {
+                if (!statsHidden) {
+                    statsContainer.classList.add("d-none");
+                    eyeOffSvg.classList.add("d-none");
+                    eyeSvg.classList.remove("d-none");
+                    statsHidden = true;
+                }
+                else {
+                    statsContainer.classList.remove("d-none");
+                    eyeOffSvg.classList.remove("d-none");
+                    eyeSvg.classList.add("d-none");
+                    statsHidden = false;
+                }
+            });
+
             plusButton.addEventListener('click', function(e) {
                 e.preventDefault();
                 if (inputField.classList.contains('d-none')) {
@@ -182,6 +126,7 @@
             });
         });
     </script>
+
 {% endblock %}
 
 {% block macros %}

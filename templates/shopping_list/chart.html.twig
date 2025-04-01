@@ -1,0 +1,148 @@
+{% set total_price_all_lists = 0 %}
+{% set total_items = 0 %}
+{% set total_cost = 0 %}
+
+{% set highest_item = null %}
+{% set lowest_item = null %}
+{% set highest_price = 0 %}
+{% set lowest_price = null %}
+
+{% set category_expenses = {} %}
+
+{% if shopping_lists is not empty %}
+    {% for shopping_list in shopping_lists %}
+        {% if shopping_list.utilisateur.id == user.id %}
+            {% for listed_product in shopping_list.listedProducts %}
+                {% set item_price = (listed_product.product.euros * 100 + listed_product.product.centimes) * listed_product.quantity %}
+                {% set total_price_all_lists = total_price_all_lists + item_price %}
+                {% set total_items = total_items + listed_product.quantity %}
+                {% set total_cost = total_cost + item_price %}
+
+                {% set item_unit_price = (listed_product.product.euros * 100 + listed_product.product.centimes) %}
+
+                {% if highest_item is null or item_unit_price > highest_price %}
+                    {% set highest_item = listed_product.product %}
+                    {% set highest_price = item_unit_price %}
+                {% endif %}
+
+                {% if lowest_item is null or item_unit_price < lowest_price %}
+                    {% set lowest_item = listed_product.product %}
+                    {% set lowest_price = item_unit_price %}
+                {% endif %}
+
+                {% set category_name = listed_product.product.category.name %}
+                {% set item_total_price = (listed_product.product.euros * 100 + listed_product.product.centimes) * listed_product.quantity %}
+
+                {% if category_expenses[category_name] is not defined %}
+                    {% set category_expenses = category_expenses|merge({ (category_name): item_total_price }) %}
+                {% else %}
+                    {% set category_expenses = category_expenses|merge({ (category_name): category_expenses[category_name] + item_total_price }) %}
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+    {% endfor %}
+{% endif %}
+
+{% set average_price_per_item = total_items > 0 ? (total_cost // total_items) / 100 : 0 %}
+
+<div>
+    <div class="d-flex flex-wrap justify-content-around align-items-center w-75 mx-auto">
+        <div class="p-3 border rounded shadow-sm">
+            <h2 class="fs-6 fw-bold">Total cost</h2>
+            <h1>{{ (total_price_all_lists // 100) }}.{{ total_price_all_lists % 100 }}€</h1>
+        </div>
+
+        <div class="p-3 border rounded shadow-sm">
+            <h2 class="fs-6 fw-bold">Average cost</h2>
+            <h1>{{ average_price_per_item }}€</h1>
+        </div>
+
+        <div class="d-flex flex-column p-3 gap-3 border rounded shadow-sm">
+            <div>
+                <h2 class="fs-6 fw-bold">📉 Lowest product</h2>
+                <h1>
+                    {% if shopping_lists is not empty and lowest_item is not null %}
+                        {{ lowest_item.name }}: {{ lowest_price // 100 }}.{{ lowest_price % 100 }}€
+                    {% else %}
+                        No product
+                    {% endif %}
+                </h1>
+            </div>
+
+            <div>
+                <h2 class="fs-6 fw-bold">📈 Highest product</h2>
+                <h1>
+                    {% if shopping_lists is not empty and highest_item is not null %}
+                        {{ highest_item.name }}: {{ highest_price // 100 }}.{{ highest_price % 100 }}€
+                    {% else %}
+                        No product
+                    {% endif %}
+                </h1>
+            </div>
+        </div>
+
+        <canvas id="shopping-lists-chart"></canvas>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+<script>
+    // Convert category_expenses to javascript object
+    const categoryExpenses = JSON.parse('{{ category_expenses | json_encode | raw }}');
+
+    // Extract labels and data from categoryExpenses
+    const labels = Object.keys(categoryExpenses);
+    const data = Object.values(categoryExpenses);
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const chartCanvas = document.getElementById("shopping-lists-chart");
+
+        new Chart(chartCanvas, {
+            type: 'pie',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Expense',
+                    data: data,
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: false,
+                maintainAspectRatio: true,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Category Expenses',
+                        font: {
+                            size: 15
+                        }
+                    },
+                    legend: {
+                        display: true,
+                        position: 'right',
+                        labels: {
+                            usePointStyle: true,
+                            pointStyle: 'circle',
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                const label = context.label || '';
+                                const euros = Math.floor(context.raw / 100);
+                                const cents = context.raw % 100;
+                                return `${label}: ${euros},${cents} €`;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: { display: false },
+                    y: { display: false }
+                }
+            },
+        });
+    });
+</script>
