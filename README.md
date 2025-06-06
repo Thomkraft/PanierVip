@@ -1,27 +1,54 @@
 # 🛒 Paniervip
 
-Paniervip est une application web développée avec **Symfony** (backend), permettant la gestion de paniers VIP dans un contexte e-commerce ou événementiel.
+Paniervip is a web application developed with **Symfony** (backend), designed to manage VIP baskets in an e-commerce or event context.
 
-## 🚀 Technologies utilisées
+## 🚀 Technologies Used
 
-- ⚙️ Language : [Symfony](https://symfony.com/)
-- 🛢 Base de données : MySQL
-- 📦 Gestionnaire de dépendances PHP : Composer
-- 📦 Gestionnaire de dépendances JS : NPM/Yarn
+- ⚙️ Language: [Symfony](https://symfony.com/)
+- 🛢 Database: MySQL
+- 📦 PHP Dependency Manager: Composer
+- 📦 JS Dependency Manager: NPM/Yarn
 
-## 🛠 Prérequis
+## 🛠 Prerequisites
 
 - PHP 8.1+
 - Composer
-- Node.js (16.x ou +)
+- Node.js (v16 or higher)
 - MySQL 8+
-- Symfony CLI (optionnel mais recommandé)
+- Symfony CLI (optional but recommended)
 
-## 📁 Configuration de la base de données
+## 📦 Project Installation
 
-Nom de la base de données : `paniervip`
+```bash
+git clone https://github.com/your-username/paniervip.git
+cd paniervip
+composer install
+npm install
+php bin/console doctrine:schema:update --force
+php bin/console doctrine:fixtures:load
+npm run watch
 
-Fichier `.env` (ou `.env.local`) :
+```
+
+## 📁 Database Configuration
+
+Database name: 'paniervip'
+
+in `.env` file (or `.env.local`) :
 
 ```env
 DATABASE_URL="mysql://root@127.0.0.1:3306/paniervip?serverVersion=9.1.0&charset=utf8mb4"
+```
+
+## 🔐 Admin account
+
+- Email : minh@ad.fr
+- Password : admin
+
+
+## 🧩 Key features
+
+- Secure admin interface
+- Shopping list creation
+- Product, quantity, and price management
+- Graphs and statistics
