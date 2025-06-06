@@ -20,7 +20,7 @@ Paniervip is a web application developed with **Symfony** (backend), designed to
 ## 📦 Project Installation
 
 ```bash
-git clone https://github.com/your-username/paniervip.git
+git clone https://github.com/Thomkraft/PanierVip.git
 cd paniervip
 composer install
 npm install
