@@ -1,11 +1,10 @@
 # 🛒 Paniervip
 
-Paniervip est une application web développée avec **Symfony** (backend) et **Vue.js** (frontend), permettant la gestion de paniers VIP dans un contexte e-commerce ou événementiel.
+Paniervip est une application web développée avec **Symfony** (backend), permettant la gestion de paniers VIP dans un contexte e-commerce ou événementiel.
 
 ## 🚀 Technologies utilisées
 
-- ⚙️ Backend : [Symfony](https://symfony.com/)
-- 🎨 Frontend : [Vue.js](https://vuejs.org/)
+- ⚙️ Language : [Symfony](https://symfony.com/)
 - 🛢 Base de données : MySQL
 - 📦 Gestionnaire de dépendances PHP : Composer
 - 📦 Gestionnaire de dépendances JS : NPM/Yarn
